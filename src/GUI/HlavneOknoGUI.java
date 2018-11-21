@@ -122,14 +122,9 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         JSliderOnJOptionPane ret = new JSliderOnJOptionPane();
         
         int[] retval = ret.mJSliderOnJOptionPane(this);
-        String s = this.okno2(this.jadro.getDbManipulation().getZamestnanci(), "Zamestnanci");
-        if ((s != null) && (s.length() > 0)) {
-            String[] ss = s.split("\\ ");
-            this.jTextArea1.setText(this.jadro.getDbManipulation().reportVytazeniaZamestnancov(retval[0],retval[1]));
-        }else{
-            this.jTextArea1.setText("Nebol vybraty zamestnanec!");
-        }
         
+            this.jTextArea1.setText(this.jadro.getDbManipulation().reportVytazeniaZamestnancov(retval[0],retval[1]));
+      
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
