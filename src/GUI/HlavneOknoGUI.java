@@ -5,16 +5,27 @@
  */
 package GUI;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
-import org.knowm.xchart.QuickChart;
-import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XYChart;
 
 import javax.swing.JOptionPane;
-import org.knowm.xchart.PieChart;
+import javax.xml.parsers.ParserConfigurationException;
 import org.knowm.xchart.QuickChart;
 import org.knowm.xchart.SwingWrapper;
 import semestralka1.Jadro;
+import org.w3c.dom.NodeList;
+import java.io.IOException;
+import java.io.StringBufferInputStream;
+import java.io.StringReader;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.DocumentBuilder;
+import jdk.internal.org.xml.sax.InputSource;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -119,12 +130,12 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        //vytazenie vsetkych zamestnancov
         JSliderOnJOptionPane ret = new JSliderOnJOptionPane();
-        
         int[] retval = ret.mJSliderOnJOptionPane(this);
-        
-            this.jTextArea1.setText(this.jadro.getDbManipulation().reportVytazeniaZamestnancov(retval[0],retval[1]));
-      
+        String odpoved = this.jadro.getDbManipulation().reportVytazeniaZamestnancov(retval[0],retval[1]);
+        this.jTextArea1.setText(odpoved);
+        //tu parsuj XML
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed

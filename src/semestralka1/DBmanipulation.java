@@ -18,6 +18,7 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /**
  *
  * @author folko
@@ -140,7 +141,15 @@ public class DBmanipulation {
             
             Clob clob = stmt.getClob(1);
             
-            return this.convertCLOBtoString(clob);
+            
+            
+
+            if(clob != null){
+               return this.convertCLOBtoString(clob); 
+            }else{
+                
+               return "Nenasli sa ziadny zamestnanci v danom rozsahu!";
+            }
         } catch (SQLException ex) {
             System.err.println("chyba pri vykonani procedury!");
             System.err.println(ex.toString());
@@ -197,8 +206,13 @@ public class DBmanipulation {
             stmt.execute();
             
             Clob clob = stmt.getClob(1);
+            if(clob != null){
+               return this.convertCLOBtoString(clob); 
+            }else{
+                
+               return "Nenasli sa ziadny zamestnanci v danom rozsahu!";
+            }
             
-            return this.convertCLOBtoString(clob);
         } catch (SQLException ex) {
             System.err.println("chyba pri vykonani procedury!");
             System.err.println(ex.toString());
