@@ -23,6 +23,7 @@ import semestralka1.Osoba;
  */
 public class GeneratorDat {
     private Random rnd;
+    private int test;
     private String[] menaMuzi;
     private String[] menaZeny;
     private String[] priezviska;
