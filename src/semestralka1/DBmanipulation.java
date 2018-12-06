@@ -129,35 +129,39 @@ public class DBmanipulation {
     
     
     
-    public String reportVytazeniaZamestnancov(int rok_od, int rok_do){
+    /**
+     * Napis si cele meno procedury, aj s parametrami ktore tam vstupuju SYNTAKTICKY
+     * Ako kebz si to pustal v sql, priklad parametru: analyzaVytazeniaZamestnancov(2001,2010) 
+     * @param callableFullProcNameAndParams
+     * @return 
+     */
+    public String executeProcedure(String callableFullProcNameAndParams){
         try {
-            ResultSet rs = null;
-            String sql = "";
-            
-            CallableStatement stmt = conn.prepareCall("{ ? = call analyzaVytazeniaZamestnancov("+rok_od+","+rok_do+")}");
+            String command =   "{ ? = call "+callableFullProcNameAndParams + "}";
+            CallableStatement stmt = conn.prepareCall(command);
             stmt.registerOutParameter(1, Types.CLOB);
-            
             stmt.execute();
             
             Clob clob = stmt.getClob(1);
             
-            
-            
-
-            if(clob != null){
+             if(clob != null){
+                 /*
+                 Vracia prekonvertovany string
+                 */
                return this.convertCLOBtoString(clob); 
             }else{
                 
-               return "Nenasli sa ziadny zamestnanci v danom rozsahu!";
+               return "Nenasli sa zaznami v procedure!";
             }
         } catch (SQLException ex) {
-            System.err.println("chyba pri vykonani procedury!");
+            System.err.println("chyba pri vykonani procedury! (exec proc)");
             System.err.println(ex.toString());
         }
-        //null ked sa odchyta vynimka
+        //nemalo bz sa vratit null        
         return null;
     }
     
+ 
     
     /**
      * Convert clob to string
