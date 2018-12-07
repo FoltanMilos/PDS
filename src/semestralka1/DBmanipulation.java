@@ -127,6 +127,29 @@ public class DBmanipulation {
         return list.toArray();
     }
     
+    //autor mato, potrebujem rodne cisla
+    public Object[] getOsoby(){
+        ArrayList<Object> list = new ArrayList<Object>();
+        ResultSet rs = null;
+        try {
+            st = conn.createStatement();
+            String sql;
+            sql = "Select rod_cislo,meno, priezvisko,dat_narodenia from s_os_udaje ";
+            rs = st.executeQuery(sql);
+        } catch (SQLException ex) {
+            System.err.println(ex.toString());
+        }
+        try {
+            while(rs.next()){
+                Osoba osoba = new Osoba(rs.getString("rod_cislo").toCharArray(),rs.getString("meno"), rs.getString("priezvisko"),
+                        rs.getString("dat_narodenia").toCharArray());
+                list.add(osoba.toString());
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex.toString());
+        } 
+        return list.toArray();
+    }
     
     
     /**
