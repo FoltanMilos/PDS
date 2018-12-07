@@ -163,4 +163,56 @@ public class GeneratorDat {
         osoba.setPriezvisko(this.priezviska[this.rnd.nextInt(this.priezviska.length-1)]);
         System.out.println(osoba.toString());
     }
+    
+    //generator zamestnancov autor:Mato
+    private void generujZamestnancov(int pocet) {
+        Object[] osoby = db.getOsoby();
+        BufferedWriter writer = null;
+        String csvFile = "Zamestnanci.dat";
+        try {
+            writer = new BufferedWriter(new FileWriter(csvFile));
+        } catch (IOException ex) {
+            Logger.getLogger(GeneratorDat.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        for(int i = 1; i <= pocet; i++){
+            //Upratovačka, Údržbár, Vrátnik, Skladník, Zamestnanec, Vedúci oddelenia, Zákaznícka podpora, Manažér, Účtovník
+            double[] vahy = {0.1, 0.15, 0.17, 0.22, 0.82, 0.85, 0.92, 0.95};
+            char[] dat_narodenia = ((Osoba)osoby[i]).getDatumNarodenia();
+            char[] rod_cislo = ((Osoba)osoby[i]).getRod_cislo();
+            int id_pozicie;
+            if (i == 1) {
+                id_pozicie = 1;
+            } else {
+                double rand = rnd.nextDouble();
+                id_pozicie = 10;
+                for(int j = 1; j < vahy.length; j++) {
+                    if (rand >= vahy[j]){
+                        id_pozicie = 10-j;
+                        break;
+                    }
+                }
+            }
+            int rok_narodenia = 1900 + (int)dat_narodenia[8]*10 + (int)dat_narodenia[9];
+            int datum_od = rok_narodenia + 18 + rnd.nextInt(10);
+            int datum_do = 0;
+            double rand = rnd.nextDouble();
+            if (rand > 0.5) {
+                datum_do = datum_od + rnd.nextInt(30);
+            }
+            String datum_do_string = (datum_do == 0) ? "" : String.valueOf(datum_od%100);
+            String sql = String.valueOf(i) + "|" + String.valueOf(rod_cislo) + "|" + 
+                String.valueOf(id_pozicie) + "|" + String.valueOf(datum_od%100) + "|" + 
+                datum_do_string + "|\n";
+            try {
+                writer.write(sql);
+            } catch (IOException ex) {
+                Logger.getLogger(GeneratorDat.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        try {
+            writer.close();
+        } catch (IOException ex) {
+            Logger.getLogger(GeneratorDat.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
