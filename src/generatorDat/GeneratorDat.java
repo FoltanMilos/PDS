@@ -28,7 +28,7 @@ public class GeneratorDat {
     private String[] menaZeny;
     private String[] priezviska;
     private DBmanipulation db;
-
+    //sss
     public GeneratorDat() throws FileNotFoundException, IOException {
         this.rnd = new Random();
         //this.rnd.setSeed(10);
