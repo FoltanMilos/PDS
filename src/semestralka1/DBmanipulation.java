@@ -136,8 +136,9 @@ public class DBmanipulation {
      * @return 
      */
     public String executeProcedure(String callableFullProcNameAndParams){
+        String command = "";
         try {
-            String command =   "{ ? = call "+callableFullProcNameAndParams + "}";
+            command =   "{ ? = call "+callableFullProcNameAndParams + "}";
             CallableStatement stmt = conn.prepareCall(command);
             stmt.registerOutParameter(1, Types.CLOB);
             stmt.execute();
@@ -154,7 +155,8 @@ public class DBmanipulation {
                return "Nenasli sa zaznami v procedure!";
             }
         } catch (SQLException ex) {
-            System.err.println("chyba pri vykonani procedury! (exec proc)");
+            System.err.println("chyba pri vykonani procedury! (exec proc - " + callableFullProcNameAndParams + "");
+            System.err.println("Command --> " + command);
             System.err.println(ex.toString());
         }
         //nemalo bz sa vratit null        
