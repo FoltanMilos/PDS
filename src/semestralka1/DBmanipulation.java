@@ -144,15 +144,12 @@ public class DBmanipulation {
         }
         try {
             int i = 0;
-            while(i < 11){ //rs.next()
-                //sss
+            while(i < 11){
                 rs.next();
-                
                 Osoba osoba = new Osoba(rs.getString("rod_cislo").toCharArray(),rs.getString("meno"), rs.getString("priezvisko"),
                         rs.getString("dat_narodenia").toCharArray());
-                i++;
                 list.add(osoba);
-                
+                i++;
             }
         } catch (SQLException ex) {
             System.err.println(ex.toString());
