@@ -122,6 +122,9 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         String odpoved = this.jadro.getDbManipulation().executeProcedure("analyzaVytazeniaZamestnancov("+retval[0]+","+retval[1]+")")  ;  //reportVytazeniaZamestnancov(retval[0],retval[1]);
         this.jTextArea1.setText(odpoved);
         //tu parsuj XML
+        
+        
+        
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed

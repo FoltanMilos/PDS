@@ -64,6 +64,7 @@ public class GeneratorDat {
         //test
         //this.generujZamestnancov(50);
         //this.generujObcanov(100000);
+        //this.generujZamestnancov(10);
     }
     
     public void generujObcanov(int pocet){
@@ -166,7 +167,7 @@ public class GeneratorDat {
     }
     
     //generator zamestnancov autor:Mato
-    private void generujZamestnancov(int pocet) {
+    public void generujZamestnancov(int pocet) {
         Object[] osoby = db.getOsoby();
         BufferedWriter writer = null;
         String csvFile = "Zamestnanci.dat";
