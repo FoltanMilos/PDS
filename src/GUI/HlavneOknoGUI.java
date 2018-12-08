@@ -5,6 +5,10 @@
  */
 package GUI;
 
+import generatorDat.GeneratorDat;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import org.knowm.xchart.XYChart;
 
@@ -19,13 +23,18 @@ import semestralka1.Jadro;
  */
 public class HlavneOknoGUI extends javax.swing.JFrame {
     private Jadro jadro;
+    private GeneratorDat gener;
     /**
      * Creates new form HlavneOknoGUI
      */
     public HlavneOknoGUI() {
         this.jadro = new Jadro();
         
-        
+        try {
+            this.gener = new GeneratorDat();
+        } catch (IOException ex) {
+            Logger.getLogger(HlavneOknoGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
         initComponents();
     }
 
@@ -42,6 +51,8 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        jButton2 = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -65,7 +76,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton1);
-        jButton1.setBounds(580, 360, 59, 23);
+        jButton1.setBounds(580, 360, 62, 32);
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -73,6 +84,24 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane1);
         jScrollPane1.setBounds(120, 20, 355, 270);
+
+        jButton2.setText("GenerujZamest");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton2);
+        jButton2.setBounds(100, 380, 380, 32);
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "10", "100", "100000" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jComboBox1);
+        jComboBox1.setBounds(260, 350, 72, 26);
 
         jMenu2.setText("Menu");
 
@@ -181,6 +210,15 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.gener.generujZamestnancov(Integer.parseInt(this.jComboBox1.getSelectedItem().toString()));
+        //sss
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -233,6 +271,8 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
