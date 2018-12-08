@@ -140,10 +140,13 @@ public class DBmanipulation {
             System.err.println(ex.toString());
         }
         try {
-            while(rs.next()){
+            int i = 0;
+            while(i < 11){
+                rs.next();
                 Osoba osoba = new Osoba(rs.getString("rod_cislo").toCharArray(),rs.getString("meno"), rs.getString("priezvisko"),
                         rs.getString("dat_narodenia").toCharArray());
-                list.add(osoba.toString());
+                list.add(osoba);
+                i++;
             }
         } catch (SQLException ex) {
             System.err.println(ex.toString());
