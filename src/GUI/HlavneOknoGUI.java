@@ -5,27 +5,13 @@
  */
 package GUI;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import org.knowm.xchart.XYChart;
 
 import javax.swing.JOptionPane;
-import javax.xml.parsers.ParserConfigurationException;
 import org.knowm.xchart.QuickChart;
 import org.knowm.xchart.SwingWrapper;
 import semestralka1.Jadro;
-import org.w3c.dom.NodeList;
-import java.io.IOException;
-import java.io.StringBufferInputStream;
-import java.io.StringReader;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.DocumentBuilder;
-import jdk.internal.org.xml.sax.InputSource;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
-import org.xml.sax.SAXException;
 
 /**
  *
@@ -136,6 +122,9 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         String odpoved = this.jadro.getDbManipulation().executeProcedure("analyzaVytazeniaZamestnancov("+retval[0]+","+retval[1]+")")  ;  //reportVytazeniaZamestnancov(retval[0],retval[1]);
         this.jTextArea1.setText(odpoved);
         //tu parsuj XML
+        
+        
+        
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
