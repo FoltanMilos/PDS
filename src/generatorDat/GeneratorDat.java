@@ -62,7 +62,7 @@ public class GeneratorDat {
             i++;
         }
         //test
-        this.generujZamestnancov(50);
+        //this.generujZamestnancov(50);
         //this.generujObcanov(100000);
     }
     
