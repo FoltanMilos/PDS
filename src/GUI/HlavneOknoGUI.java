@@ -65,7 +65,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton1);
-        jButton1.setBounds(580, 360, 62, 32);
+        jButton1.setBounds(580, 360, 59, 23);
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
