@@ -27,6 +27,13 @@ public class GeneratorDat {
     private String[] menaMuzi;
     private String[] menaZeny;
     private String[] priezviska;
+    private String[] auta;
+    private String[] autobusy;
+    private String[] kamiony;
+    private String[] icoAutobusy = {"00000000000", "11111111111", "22222222222", "33333333333", "44444444444"};
+    private String[] icoKamiony = {"55555555555", "66666666666", "77777777777", "88888888888", "99999999999"};
+    private String[] prevadzkovateliaAutobusy = {"SAD Zvolen", "SAD Zilina", "SAD Matrin", "SAD Zarnovica", "SAD Bratislava"};
+    private String[] prevadzkovateliaKamiony ={"Foltan Transport a.s.", "Sarina Cargo s.r.o.", "Kotora Trucking v.o.s.", "Paliesek Shipping k.s.", "Jednotne rolnicke druzstvo Dolna Ves"};
     private DBmanipulation db;
     //sss
     public GeneratorDat() throws FileNotFoundException, IOException {
@@ -35,6 +42,9 @@ public class GeneratorDat {
         this.menaMuzi = new String[195];
         this.menaZeny = new String[218];
         this.priezviska = new String[50];
+        this.auta = new String[33];
+        this.autobusy = new String[9];
+        this.kamiony = new String[9];
         this.db = new DBmanipulation();
         //nacitanie mien
         String csvFile = "GeneratorMena.txt";
@@ -61,6 +71,27 @@ public class GeneratorDat {
             this.priezviska[i] = params[1];
             i++;
         }
+        //nacitanie aut autor:mato
+        csvFile = "GeneratorAuta.txt";
+        reader = new BufferedReader(new FileReader(csvFile));
+        while ((line = reader.readLine()) != null) {
+            String[] params = line.split(",");
+            this.auta = params;
+        }
+        //nacitanie autobusov autor:mato
+        csvFile = "GeneratorAutobusy.txt";
+        reader = new BufferedReader(new FileReader(csvFile));
+        while ((line = reader.readLine()) != null) {
+            String[] params = line.split(",");
+            this.autobusy = params;
+        }      
+        //nacitanie kamionov autor:mato
+        csvFile = "GeneratorKamiony.txt";
+        reader = new BufferedReader(new FileReader(csvFile));
+        while ((line = reader.readLine()) != null) {
+            String[] params = line.split(",");
+            this.kamiony = params;
+        }           
         //test
         //this.generujZamestnancov(50);
         //this.generujObcanov(100000);
@@ -168,7 +199,7 @@ public class GeneratorDat {
     
     //generator zamestnancov autor:Mato
     public void generujZamestnancov(int pocet) {
-        Object[] osoby = db.getOsoby();
+        Object[] osoby = this.db.getOsoby();
         BufferedWriter writer = null;
         String csvFile = "Zamestnanci.dat";
         try {
@@ -184,7 +215,7 @@ public class GeneratorDat {
             if (i == 1) {
                 id_pozicie = 1;
             } else {
-                double rand = rnd.nextDouble();
+                double rand = this.rnd.nextDouble();
                 id_pozicie = 10;
                 for(int j = 1; j < vahy.length; j++) {
                     if (rand >= vahy[j]){
@@ -194,7 +225,7 @@ public class GeneratorDat {
                 }
             }
             int rok_narodenia = 1900 + (Character.getNumericValue(dat_narodenia[2]))*10 + Character.getNumericValue(dat_narodenia[3]);    
-            int datum_od = rok_narodenia + 18 + rnd.nextInt(10);
+            int datum_od = rok_narodenia + 18 + this.rnd.nextInt(10);
             char[] dat_od = String.valueOf(datum_od).toCharArray();
             char[] datum_od_chararr = dat_narodenia.clone();
             for(int j = 0; j < dat_od.length; j++) {
@@ -202,9 +233,9 @@ public class GeneratorDat {
             }
             int datum_do = 0;
             String datum_do_string = "";
-            double rand = rnd.nextDouble();
+            double rand = this.rnd.nextDouble();
             if (rand > 0.5) {
-                datum_do = datum_od + rnd.nextInt(15)+1;
+                datum_do = datum_od + this.rnd.nextInt(15)+1;
                 char[] dat_do = String.valueOf(datum_do).toCharArray();
                 char[] datum_do_chararr = dat_narodenia.clone();
                 for(int j = 0; j < dat_do.length; j++) {
@@ -215,6 +246,68 @@ public class GeneratorDat {
             String sql = String.valueOf(i) + "|" + String.valueOf(((Osoba)osoby[i]).getRod_cislo()) + "|" + 
                 String.valueOf(id_pozicie) + "|" + String.valueOf(datum_od_chararr) + "|" + 
                 datum_do_string + "|\n";
+            try {
+                writer.write(sql);
+            } catch (IOException ex) {
+                Logger.getLogger(GeneratorDat.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        try {
+            writer.close();
+        } catch (IOException ex) {
+            Logger.getLogger(GeneratorDat.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    // autor mato
+    public void generujVozidla(int pocet) {
+        Object[] osoby = this.db.getOsoby();
+        BufferedWriter writer = null;
+        String csvFile = "VozdiaInsert.sql";
+        try {
+            writer = new BufferedWriter(new FileWriter(csvFile));
+        } catch (IOException ex) {
+            Logger.getLogger(GeneratorDat.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        for(int i = 1; i <= pocet; i++){
+            String param1 = String.valueOf(((Osoba)osoby[rnd.nextInt(osoby.length)]).getRod_cislo());
+            String trieda;
+            int nosnost;
+            int cena;
+            String znacka;
+            String mesiac = "0";
+            int cislo = this.rnd.nextInt(12)+1;
+            mesiac = (cislo < 10)? mesiac+String.valueOf(cislo):String.valueOf(cislo);
+            String datum_vyroby = String.valueOf(this.rnd.nextInt(28)+1990) + "-" + mesiac + "-01";
+            String nieAutoParam = "";
+            double rand = this.rnd.nextDouble();
+            if (rand < 0.25){
+                trieda = "kamion";
+                int randInt = this.rnd.nextInt(this.icoKamiony.length);
+                nosnost = 5000 + this.rnd.nextInt(10)*100;
+                cena = 30000 + this.rnd.nextInt(20)*1000;
+                param1 = this.icoKamiony[randInt];
+                znacka = this.kamiony[this.rnd.nextInt(kamiony.length)];
+                nieAutoParam += ","+String.valueOf(this.rnd.nextInt(10)*100 + 3000); //kapacita nakladu
+                nieAutoParam += ","+String.valueOf(this.rnd.nextInt(10)*10 + 500); //kapacita nadrze
+                nieAutoParam += ",'"+this.prevadzkovateliaKamiony[randInt]+"'";
+            } else if (rand < 0.5){
+                trieda = "autobus";
+                int randInt = this.rnd.nextInt(icoAutobusy.length);
+                nosnost = 3000 + this.rnd.nextInt(10)*100;
+                cena = 10000 + this.rnd.nextInt(10)*1000;
+                param1 = this.icoAutobusy[randInt];
+                znacka = this.autobusy[this.rnd.nextInt(this.autobusy.length)];
+                nieAutoParam += ","+String.valueOf(this.rnd.nextInt(20) + 40); //kapacita sedenie
+                nieAutoParam += ","+String.valueOf(this.rnd.nextInt(15) + 30); //kapacita statie
+                nieAutoParam += ",'"+this.prevadzkovateliaKamiony[randInt]+"'";
+            } else {
+                trieda = "auto";
+                nosnost = 1000 + this.rnd.nextInt(10)*50;
+                cena = 5000 + this.rnd.nextInt(100)*100;
+                znacka = this.auta[this.rnd.nextInt(this.auta.length)];
+            }
+                String sql = "insert into s_vozidlo values(new s_trieda_"+trieda+"('"+param1+"',"+nosnost+","+cena+","+znacka+","+datum_vyroby+nieAutoParam+"));\n";
             try {
                 writer.write(sql);
             } catch (IOException ex) {
