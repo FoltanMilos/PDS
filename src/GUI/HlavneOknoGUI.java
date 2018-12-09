@@ -76,7 +76,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton1);
-        jButton1.setBounds(580, 360, 62, 32);
+        jButton1.setBounds(580, 360, 59, 23);
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -92,7 +92,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton2);
-        jButton2.setBounds(100, 380, 380, 32);
+        jButton2.setBounds(100, 380, 380, 23);
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "10", "100", "100000" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
@@ -101,7 +101,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jComboBox1);
-        jComboBox1.setBounds(260, 350, 72, 26);
+        jComboBox1.setBounds(260, 350, 61, 20);
 
         jMenu2.setText("Menu");
 
