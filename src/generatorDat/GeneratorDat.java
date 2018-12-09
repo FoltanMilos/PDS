@@ -307,7 +307,7 @@ public class GeneratorDat {
                 cena = 5000 + this.rnd.nextInt(100)*100;
                 znacka = this.auta[this.rnd.nextInt(this.auta.length)];
             }
-                String sql = "insert into s_vozidlo values(new s_trieda_"+trieda+"('"+param1+"',"+nosnost+","+cena+",'"+znacka+"',to_date("+datum_vyroby+",'YYYY-MM-DD')"+nieAutoParam+"));\n";
+                String sql = "insert into s_vozidlo values(new s_trieda_"+trieda+"('"+param1+"',"+nosnost+","+cena+",'"+znacka+"',to_date('"+datum_vyroby+"','YYYY-MM-DD')"+nieAutoParam+"));\n";
             try {
                 writer.write(sql);
             } catch (IOException ex) {
