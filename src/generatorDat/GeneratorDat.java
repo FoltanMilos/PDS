@@ -176,11 +176,10 @@ public class GeneratorDat {
         } catch (IOException ex) {
             Logger.getLogger(GeneratorDat.class.getName()).log(Level.SEVERE, null, ex);
         }
+        //Upratovačka, Údržbár, Vrátnik, Skladník, Zamestnanec, Vedúci oddelenia, Zákaznícka podpora, Manažér, Účtovník
+        double[] vahy = {0.1, 0.15, 0.17, 0.22, 0.82, 0.85, 0.92, 0.95};
         for(int i = 1; i <= pocet; i++){
-            //Upratovačka, Údržbár, Vrátnik, Skladník, Zamestnanec, Vedúci oddelenia, Zákaznícka podpora, Manažér, Účtovník
-            double[] vahy = {0.1, 0.15, 0.17, 0.22, 0.82, 0.85, 0.92, 0.95};
             char[] dat_narodenia = ((Osoba)osoby[i]).getDatumNarodenia();
-            char[] rod_cislo = ((Osoba)osoby[i]).getRod_cislo();
             int id_pozicie;
             if (i == 1) {
                 id_pozicie = 1;
@@ -194,16 +193,27 @@ public class GeneratorDat {
                     }
                 }
             }
-            int rok_narodenia = 1900 + (int)dat_narodenia[8]*10 + (int)dat_narodenia[9];
+            int rok_narodenia = 1900 + (Character.getNumericValue(dat_narodenia[2]))*10 + Character.getNumericValue(dat_narodenia[3]);    
             int datum_od = rok_narodenia + 18 + rnd.nextInt(10);
+            char[] dat_od = String.valueOf(datum_od).toCharArray();
+            char[] datum_od_chararr = dat_narodenia.clone();
+            for(int j = 0; j < dat_od.length; j++) {
+                datum_od_chararr[j] = dat_od[j];
+            }
             int datum_do = 0;
+            String datum_do_string = "";
             double rand = rnd.nextDouble();
             if (rand > 0.5) {
-                datum_do = datum_od + rnd.nextInt(30);
+                datum_do = datum_od + rnd.nextInt(15)+1;
+                char[] dat_do = String.valueOf(datum_do).toCharArray();
+                char[] datum_do_chararr = dat_narodenia.clone();
+                for(int j = 0; j < dat_do.length; j++) {
+                    datum_do_chararr[j] = dat_do[j];
+                }
+                datum_do_string = String.valueOf(datum_do_chararr);
             }
-            String datum_do_string = (datum_do == 0) ? "" : String.valueOf(datum_od%100);
-            String sql = String.valueOf(i) + "|" + String.valueOf(rod_cislo) + "|" + 
-                String.valueOf(id_pozicie) + "|" + String.valueOf(datum_od%100) + "|" + 
+            String sql = String.valueOf(i) + "|" + String.valueOf(((Osoba)osoby[i]).getRod_cislo()) + "|" + 
+                String.valueOf(id_pozicie) + "|" + String.valueOf(datum_od_chararr) + "|" + 
                 datum_do_string + "|\n";
             try {
                 writer.write(sql);
