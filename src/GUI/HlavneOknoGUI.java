@@ -59,6 +59,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
 
         jMenu1.setText("jMenu1");
 
@@ -83,7 +84,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTextArea1);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(120, 20, 355, 270);
+        jScrollPane1.setBounds(280, 10, 360, 340);
 
         jButton2.setText("GenerujZamest");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -92,7 +93,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton2);
-        jButton2.setBounds(100, 380, 380, 23);
+        jButton2.setBounds(10, 60, 190, 32);
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "10", "100", "100000" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
@@ -101,7 +102,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jComboBox1);
-        jComboBox1.setBounds(260, 350, 61, 20);
+        jComboBox1.setBounds(10, 20, 120, 26);
 
         jMenu2.setText("Menu");
 
@@ -134,6 +135,9 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         jMenu3.add(jMenuItem3);
 
         jMenuBar1.add(jMenu3);
+
+        jMenu4.setText("PDF report");
+        jMenuBar1.add(jMenu4);
 
         setJMenuBar(jMenuBar1);
 
@@ -276,6 +280,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
