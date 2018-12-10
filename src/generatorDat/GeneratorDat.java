@@ -300,7 +300,7 @@ public class GeneratorDat {
                 znacka = this.autobusy[this.rnd.nextInt(this.autobusy.length)];
                 nieAutoParam += ","+String.valueOf(this.rnd.nextInt(20) + 40); //kapacita sedenie
                 nieAutoParam += ","+String.valueOf(this.rnd.nextInt(15) + 30); //kapacita statie
-                nieAutoParam += ",'"+this.prevadzkovateliaKamiony[randInt]+"'";
+                nieAutoParam += ",'"+this.prevadzkovateliaAutobusy[randInt]+"'";
             } else {
                 trieda = "auto";
                 nosnost = 1000 + this.rnd.nextInt(10)*50;
