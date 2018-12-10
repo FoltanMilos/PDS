@@ -209,7 +209,7 @@ public class GeneratorDat {
         }
         //Upratovačka, Údržbár, Vrátnik, Skladník, Zamestnanec, Vedúci oddelenia, Zákaznícka podpora, Manažér, Účtovník
         double[] vahy = {0.1, 0.15, 0.17, 0.22, 0.82, 0.85, 0.92, 0.95};
-        for(int i = 1; i <= pocet; i++){
+        for(int i = 1; i <= osoby.length-1; i++){
             char[] dat_narodenia = ((Osoba)osoby[i]).getDatumNarodenia();
             int id_pozicie;
             if (i == 1) {
