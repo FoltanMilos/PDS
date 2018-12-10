@@ -93,7 +93,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton2);
-        jButton2.setBounds(10, 60, 190, 32);
+        jButton2.setBounds(10, 60, 190, 23);
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "10", "100", "100000" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
@@ -102,7 +102,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jComboBox1);
-        jComboBox1.setBounds(10, 20, 120, 26);
+        jComboBox1.setBounds(10, 20, 120, 20);
 
         jMenu2.setText("Menu");
 
@@ -190,7 +190,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         
         
         
-        String s = this.okno2(this.jadro.getDbManipulation().getZamestnanci(), "Zamestnanci");
+        String s = this.okno2(this.jadro.getDbManipulation().getZamestnanci(""), "Zamestnanci");
         if ((s != null) && (s.length() > 0)) {
             String[] ss = s.split("\\ ");
             XYChart chart = QuickChart.getChart("Vykonnost zamestnanca " + ss[2] + " " + ss[3],

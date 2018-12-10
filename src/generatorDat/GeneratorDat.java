@@ -218,7 +218,7 @@ public class GeneratorDat {
                 double rand = this.rnd.nextDouble();
                 id_pozicie = 10;
                 for(int j = 1; j < vahy.length; j++) {
-                    if (rand >= vahy[j]){
+                    if (rand <= vahy[j]){
                         id_pozicie = 10-j;
                         break;
                     }
@@ -319,5 +319,9 @@ public class GeneratorDat {
         } catch (IOException ex) {
             Logger.getLogger(GeneratorDat.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public void generujKontroly(int pocet) {
+    
     }
 }
