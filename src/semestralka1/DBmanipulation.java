@@ -131,6 +131,30 @@ public class DBmanipulation {
         return list.toArray();
     }
     
+    public ArrayList<Integer> getZamestnanciVladko(){
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        ResultSet rs = null;
+        try {
+            st = conn.createStatement();
+            String sql;
+            sql = "Select id_zamestnanca from s_zamestnanec";
+            rs = st.executeQuery(sql);
+        } catch (SQLException ex) {
+            System.err.println(ex.toString());
+        }
+        try {
+            int i = 0;
+            while(i < 100){
+                rs.next();
+                list.add(Integer.parseInt(rs.getString("id_zamestnanca")));
+                i++;
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex.toString());
+        } 
+        return list;
+    }
+    
     //autor mato, potrebujem rodne cisla
     public Object[] getOsoby(){
         ArrayList<Object> list = new ArrayList<Object>();
