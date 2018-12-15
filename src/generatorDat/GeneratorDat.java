@@ -97,7 +97,9 @@ public class GeneratorDat {
         //this.generujObcanov(100000);
         //this.generujZamestnancov(10);
     }
-    
+     public void gen(int pocet){
+         
+     }
     public void generujObcanov(int pocet){
         BufferedWriter writer = null;
         String csvFile = "Osoby.dat";
