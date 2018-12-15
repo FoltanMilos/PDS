@@ -144,8 +144,8 @@ public class DBmanipulation {
         }
         try {
             int i = 0;
-            while(i < 100){
-                rs.next();
+            while(rs.next()){ //i < 101
+                 
                 Osoba osoba = new Osoba(rs.getString("rod_cislo").toCharArray(),rs.getString("meno"), rs.getString("priezvisko"),
                         rs.getString("dat_narodenia").toCharArray());
                 list.add(osoba);
