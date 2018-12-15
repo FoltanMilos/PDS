@@ -218,7 +218,7 @@ public class GeneratorDat {
                 double rand = this.rnd.nextDouble();
                 id_pozicie = 10;
                 for(int j = 1; j < vahy.length; j++) {
-                    if (rand >= vahy[j]){
+                    if (rand <= vahy[j]){
                         id_pozicie = 10-j;
                         break;
                     }
@@ -300,7 +300,7 @@ public class GeneratorDat {
                 znacka = this.autobusy[this.rnd.nextInt(this.autobusy.length)];
                 nieAutoParam += ","+String.valueOf(this.rnd.nextInt(20) + 40); //kapacita sedenie
                 nieAutoParam += ","+String.valueOf(this.rnd.nextInt(15) + 30); //kapacita statie
-                nieAutoParam += ",'"+this.prevadzkovateliaKamiony[randInt]+"'";
+                nieAutoParam += ",'"+this.prevadzkovateliaAutobusy[randInt]+"'";
             } else {
                 trieda = "auto";
                 nosnost = 1000 + this.rnd.nextInt(10)*50;
@@ -319,5 +319,9 @@ public class GeneratorDat {
         } catch (IOException ex) {
             Logger.getLogger(GeneratorDat.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public void generujKontroly(int pocet) {
+    
     }
 }

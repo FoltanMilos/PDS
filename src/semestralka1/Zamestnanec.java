@@ -12,16 +12,24 @@ package semestralka1;
 public class Zamestnanec {
     private String meno;
     private String priezvisko;
-    private String datu_narodenia;
-    private String pozicia;
+    private String datum_narodenia;
+    private int pozicia;
+    private String popis_pozicie;
     private String rod_cislo;
+    private int id;
+    private String dat_od;
+    private String dat_do;
 
-    public Zamestnanec(String meno, String priezvisko, String datu_narodenia, String pozicia,String rod_cislo) {
+    public Zamestnanec(String rod_cislo, String meno, String priezvisko, String datum_narodenia, int pozicia, String popis_pozicie, int id, String dat_od, String dat_do) {
         this.meno = meno;
         this.priezvisko = priezvisko;
-        this.datu_narodenia = datu_narodenia;
+        this.datum_narodenia = datum_narodenia;
         this.pozicia = pozicia;
+        this.popis_pozicie = popis_pozicie;
         this.rod_cislo = rod_cislo;
+        this.id = id;
+        this.dat_od = dat_od;
+        this.dat_do = dat_do;
     }
 
     public String getMeno() {
@@ -41,24 +49,56 @@ public class Zamestnanec {
     }
 
     public String getDatu_narodenia() {
-        return datu_narodenia;
+        return datum_narodenia;
     }
 
-    public void setDatu_narodenia(String datu_narodenia) {
-        this.datu_narodenia = datu_narodenia;
+    public void setDatu_narodenia(String datum_narodenia) {
+        this.datum_narodenia = datum_narodenia;
     }
 
-    public String getPozicia() {
+    public int getPozicia() {
         return pozicia;
     }
 
-    public void setPozicia(String pozicia) {
+    public void setPozicia(int pozicia) {
         this.pozicia = pozicia;
     }
 
+     public String getPopisPozicie() {
+        return this.popis_pozicie;
+    }
+
+    public void setPopisPozicie(String popis) {
+        this.popis_pozicie = popis;
+    }   
+    
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }    
+    
+    public String getDatOd() {
+        return this.dat_od;
+    }
+    
+    public void setDatOd(String dat_od) {
+        this.dat_od = dat_od;
+    }
+     
+    public String getDatDo() {
+        return this.dat_do;
+    }
+    
+    public void setDatDo(String dat_do) {
+        this.dat_do = dat_do;
+    }
+    
     @Override
     public String toString() {
-        return rod_cislo + " " + meno + " " + priezvisko + " " + datu_narodenia + " " + pozicia ;
+        return this.rod_cislo + " " + this.meno + " " + this.priezvisko + " " + this.datum_narodenia + " " + this.popis_pozicie ;
     }
     
     

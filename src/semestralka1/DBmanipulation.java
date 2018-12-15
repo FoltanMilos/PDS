@@ -100,14 +100,14 @@ public class DBmanipulation {
     }
     
     
-    public Object[] getZamestnanci(){
+    public Object[] getZamestnanci(String where){
         ArrayList<Object> list = new ArrayList<Object>();
         ResultSet rs = null;
         try {
             st = conn.createStatement();
             String sql;
-            sql = "Select rod_cislo,meno, priezvisko,dat_narodenia,pozicia from s_os_udaje "
-                    + "join s_zamestnanec using(rod_cislo) ";
+            sql = "Select rod_cislo,meno, priezvisko,dat_narodenia,id_typu, popis, id_zamestnanca, dat_od, nvl(dat_do,\"\") from s_os_udaje "
+                    + "join s_zamestnanec using(rod_cislo) join s_typ_pozicie using(id_typu)" + where;
             rs = st.executeQuery(sql);
             
            // sql = "Select * from s_os_udaje";
@@ -120,7 +120,8 @@ public class DBmanipulation {
             while(rs.next()){
                 // System.out.println(rs.getInt("os_cislo"));
                 Zamestnanec zamestnanec = new Zamestnanec(rs.getString("rod_cislo"),rs.getString("meno"), rs.getString("priezvisko"),
-                        rs.getString("dat_narodenia") , rs.getString("pozicia"));
+                        rs.getString("dat_narodenia") , rs.getInt("id_typu"), rs.getString("popis"), rs.getInt("id_zamestnanca"), 
+                        rs.getString("dat_od"), rs.getString("dat_do"));
                 list.add(zamestnanec.toString());
                
             }
@@ -144,8 +145,8 @@ public class DBmanipulation {
         }
         try {
             int i = 0;
-            while(rs.next()){ //i < 101
-                 
+            while(i < 101){
+                rs.next();
                 Osoba osoba = new Osoba(rs.getString("rod_cislo").toCharArray(),rs.getString("meno"), rs.getString("priezvisko"),
                         rs.getString("dat_narodenia").toCharArray());
                 list.add(osoba);

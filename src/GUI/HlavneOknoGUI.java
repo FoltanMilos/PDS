@@ -210,7 +210,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         
         
         
-        String s = this.okno2(this.jadro.getDbManipulation().getZamestnanci(), "Zamestnanci");
+        String s = this.okno2(this.jadro.getDbManipulation().getZamestnanci(""), "Zamestnanci");
         if ((s != null) && (s.length() > 0)) {
             String[] ss = s.split("\\ ");
             XYChart chart = QuickChart.getChart("Vykonnost zamestnanca " + ss[2] + " " + ss[3],
