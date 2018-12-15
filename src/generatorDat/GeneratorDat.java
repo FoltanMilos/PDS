@@ -11,12 +11,13 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import semestralka1.DBmanipulation;
 import semestralka1.Osoba;
-
+import java.util.concurrent.ThreadLocalRandom;
 /**
  *
  * @author folko
@@ -98,8 +99,78 @@ public class GeneratorDat {
         //this.generujZamestnancov(10);
     }
      public void gen(int pocet){
-         
+            BufferedWriter writer = null;
+        String csvFile = "Kontrola.dat";
+        try {
+                writer = new BufferedWriter(new FileWriter(csvFile));
+            } catch (IOException ex) {
+                Logger.getLogger(GeneratorDat.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        ArrayList<Integer> zamestnanciVladko = this.db.getZamestnanciVladko();
+
+        for(int i = 0; i < pocet; i++){
+            int randomNum = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+            int controleCost = ThreadLocalRandom.current().nextInt(50, 500 + 1);
+            int randomZamestanec = ThreadLocalRandom.current().nextInt(1, zamestnanciVladko.size() + 1);
+            
+            int randYear = ThreadLocalRandom.current().nextInt(2000, 2018 + 1);
+            int randMounth = ThreadLocalRandom.current().nextInt(1, 12 + 1);
+            int randDay = 0;
+            if(randMounth % 31 == 0){
+                randDay = ThreadLocalRandom.current().nextInt(1, 31 + 1);
+            } else if (randMounth % 30 == 0) {
+                randDay = ThreadLocalRandom.current().nextInt(1, 30 + 1);
+            } else if(randMounth % 28 == 0){
+                randDay = ThreadLocalRandom.current().nextInt(1, 28 + 1);
+            }
+            String mounthS;
+            if(randMounth < 10){
+                mounthS = "0" + randMounth;
+            } else {
+                mounthS = String.valueOf(randMounth);
+            }
+            
+             String dayS;
+            if(randDay < 10){
+                dayS = "0" + randDay;
+            } else {
+                dayS = String.valueOf(randDay);
+            }
+            
+            String hourS;
+            int randHour = ThreadLocalRandom.current().nextInt(8, 16 + 1);           
+            if(randHour < 10){
+                hourS = "0" + randHour;
+            } else {
+                hourS = String.valueOf(randHour);
+            }
+            
+            int hourFinish = randHour + 1;
+            String hourFinishS;
+             if(hourFinish < 10){
+                hourFinishS = "0" + hourFinish;
+            } else {
+                hourFinishS = String.valueOf(hourFinish);
+            }
+             
+            String record = i + "|" + randomNum + "|" + zamestnanciVladko.get(randomZamestanec) + 
+                    "|" + controleCost + "|" + randYear + "-" + mounthS + "-" + dayS + " " + hourS + ":00|" +
+                    randYear + "-" + mounthS + "-" + dayS + " " + hourFinishS + ":00\n";
+            
+            try {
+                writer.write(record);
+            } catch (IOException ex) {
+                Logger.getLogger(GeneratorDat.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        try {
+            writer.close();
+        } catch (IOException ex) {
+            Logger.getLogger(GeneratorDat.class.getName()).log(Level.SEVERE, null, ex);
+        }
      }
+     
+     
     public void generujObcanov(int pocet){
         BufferedWriter writer = null;
         String csvFile = "Osoby.dat";
