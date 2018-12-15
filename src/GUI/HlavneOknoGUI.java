@@ -5,18 +5,40 @@
  */
 package GUI;
 
+
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.tool.xml.XMLWorkerHelper;
 import generatorDat.GeneratorDat;
+import it.grabz.grabzit.GrabzItClient;
+
+import java.io.File;
+import java.io.FileInputStream;
+
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.StringReader;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import org.knowm.xchart.XYChart;
-
 import javax.swing.JOptionPane;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.jsoup.Jsoup;
+import org.jsoup.select.Elements;
 import org.knowm.xchart.QuickChart;
 import org.knowm.xchart.SwingWrapper;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 import semestralka1.Jadro;
-
+import java.io.OutputStream;
+import java.nio.charset.Charset;
+import org.xhtmlrenderer.pdf.ITextRenderer;
 /**
  *
  * @author folko
@@ -66,9 +88,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         jMenu1.setText("jMenu1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(650, 450));
         setMinimumSize(new java.awt.Dimension(650, 450));
-        setPreferredSize(new java.awt.Dimension(650, 450));
         setResizable(false);
         getContentPane().setLayout(null);
 
@@ -175,11 +195,99 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         String odpoved = this.jadro.getDbManipulation().executeProcedure("analyzaVytazeniaZamestnancov("+retval[0]+","+retval[1]+")")  ;  //reportVytazeniaZamestnancov(retval[0],retval[1]);
         this.jTextArea1.setText(odpoved);
         //tu parsuj XML
+         try{
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+	DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        InputSource is = new InputSource(new StringReader(odpoved));
+	Document doc = dBuilder.parse(is);
         
+        doc.getDocumentElement().normalize();
+        NodeList rows = doc.getElementsByTagName("ROW");
+        String[] data = new String[4];
+        for(int i = 0; i < rows.getLength(); i++){
+           Node row = rows.item(i);
+           if(row.getNodeType() == Node.ELEMENT_NODE){
+               Element el = (Element) row;
+               data[0] = el.getElementsByTagName("MENO").item(0).getTextContent();
+               data[1] = el.getElementsByTagName("PRIEZVISKO").item(0).getTextContent();
+               data[2] = el.getElementsByTagName("ROD_CISLO").item(0).getTextContent();
+               data[3] = el.getElementsByTagName("POCET").item(0).getTextContent();
+           }
+            
+        }
+        
+        for(String i: data){
+            System.out.println(i);
+        }
+        }catch(Exception e){
+            System.out.println("error happened: No data to display");
+        }
         
         
     }//GEN-LAST:event_jMenuItem1ActionPerformed
-
+    
+    private void parseXMLToPDF(String xml){
+        xml = "<?xml version=\"1.0\"?>\n" +
+            "<ROWSET>\n" +
+            " <ROW>\n" +
+            "  <ROK>2018</ROK>\n" +
+            "  <ID_KONTROLY>1</ID_KONTROLY>\n" +
+            "  <ZACIATOK_KONTROLY>12-14 12:18:20</ZACIATOK_KONTROLY>\n" +
+            "  <KONIEC_KONTROLY>12-14 12:18:20</KONIEC_KONTROLY>\n" +
+            "  <TYP_KONTROLY>Technicka kontrola - osobne</TYP_KONTROLY>\n" +
+            " </ROW>\n" +
+            " <ROW>\n" +
+            "  <ROK>2018</ROK>\n" +
+            "  <ID_KONTROLY>2</ID_KONTROLY>\n" +
+            "  <ZACIATOK_KONTROLY>12-14 12:18:35</ZACIATOK_KONTROLY>\n" +
+            "  <KONIEC_KONTROLY>12-14 12:18:35</KONIEC_KONTROLY>\n" +
+            "  <TYP_KONTROLY>Technicka kontrola - osobne</TYP_KONTROLY>\n" +
+            " </ROW>\n" +
+            "</ROWSET>\n";
+ 
+        try{
+        File file = new File("tmp.html");
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+	DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        InputSource is = new InputSource(new StringReader(xml));
+	Document doc = dBuilder.parse(is);
+        org.jsoup.nodes.Document html = Jsoup.parse(file,"UTF-8","");
+        doc.getDocumentElement().normalize();
+        NodeList rows = doc.getElementsByTagName("ROW");
+        for(int i = 0 ; i < rows.getLength(); i++){
+            String[] data = new String[5];
+               Node row = rows.item(i);
+               if(row.getNodeType() == Node.ELEMENT_NODE){
+                   Element el = (Element) row;
+                   data[0] = el.getElementsByTagName("ROK").item(0).getTextContent();
+                   data[1] = el.getElementsByTagName("ID_KONTROLY").item(0).getTextContent();
+                   data[2] = el.getElementsByTagName("ZACIATOK_KONTROLY").item(0).getTextContent();
+                   data[3] = el.getElementsByTagName("KONIEC_KONTROLY").item(0).getTextContent();
+                   data[4] = el.getElementsByTagName("TYP_KONTROLY").item(0).getTextContent();
+               }
+            Elements table = html.select("tbody");
+            org.jsoup.nodes.Element content = table.get(1);
+            org.jsoup.nodes.Element contentRow = html.createElement("tr");
+            for(String item : data){
+                org.jsoup.nodes.Element col = html.createElement("td");
+                col.appendText(item);
+                contentRow.appendChild(col);
+            }
+            content.appendChild(contentRow);
+            
+        }
+        OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(new File("output.html")));
+        writer.write(html.html());
+        writer.close();
+        GrabzItClient grabzIt = new GrabzItClient("", "");
+        grabzIt.HTMLToPDF(html.html());
+        grabzIt.SaveTo("output.pdf");
+        }catch(Exception e){
+            System.out.println("error happened: No data to display");
+             System.err.println(e.getMessage());
+        }
+        
+    }
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         double[] yData = new double[] { 56,25,32,38,21 };
         double[] xData = new double[] { 1998, 2003, 2008,2013,2018 };
@@ -246,9 +354,9 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox2ActionPerformed
-
+ 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        this.gener.generujVozidla(Integer.parseInt(this.jComboBox2.getSelectedItem().toString()));
+        this.parseXMLToPDF("");
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**

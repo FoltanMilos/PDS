@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+ <head> 
+  <style>
+.center{
+   text-align: center;
+   vertical-align: middle;
+   margin: 0 auto;  
+}
+
+.header{
+    font-size:2em;
+
+}
+
+th, td{
+    font-size:20px;
+    width: (100% / 6);
+    padding-right: 20px; 
+    text-align: center;
+}
+tr{
+    width: 100%;
+    border-bottom:2px solid black;
+}
+
+.table{
+    width: 100%;
+    margin-top: 50px;
+    margin-bottom: 20px;    
+}
+.content{
+    margin: 0 auto;
+    padding-top: 50px; 
+    width: 80%;
+}
+
+
+</style> 
+ </head> 
+ <body> 
+  <div class="content"> 
+   <h1 class="center">Employee report</h1> 
+   <div class="row"> 
+    <h3 class="header">Employee</h3> 
+    <table class="table"> 
+     <thead class="table-head"> 
+      <tr> 
+       <th>Name</th> 
+       <th>Surname</th> 
+       <th>ID</th> 
+       <th>Position</th> 
+       <th>Emplyee since</th> 
+       <th>Emplyee until</th> 
+      </tr> 
+     </thead> 
+     <tbody> 
+      <tr> 
+       <td class="col">Milos</td> 
+       <td class="col">Foltan</td> 
+       <td class="col">1</td> 
+       <td class="col">Udrzbar</td> 
+       <td class="col">2018.01.01</td> 
+       <td class="col">-</td> 
+      </tr> 
+     </tbody> 
+    </table> 
+   </div> 
+   <div class="row"> 
+    <h3 class="header">Report</h3> 
+    <table class="table"> 
+     <thead> 
+      <tr> 
+       <th>Year</th> 
+       <th>ID</th> 
+       <th>Begin time</th> 
+       <th>End time</th> 
+       <th>Type</th> 
+      </tr> 
+     </thead> 
+     <tbody> 
+      <tr>
+       <td>2018</td>
+       <td>1</td>
+       <td>12-14 12:18:20</td>
+       <td>12-14 12:18:20</td>
+       <td>Technicka kontrola - osobne</td>
+      </tr>
+      <tr>
+       <td>2018</td>
+       <td>2</td>
+       <td>12-14 12:18:35</td>
+       <td>12-14 12:18:35</td>
+       <td>Technicka kontrola - osobne</td>
+      </tr>
+     </tbody> 
+    </table> 
+   </div> 
+  </div>  
+ </body>
+</html>
