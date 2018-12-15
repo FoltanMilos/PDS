@@ -9,7 +9,7 @@ package GUI;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.tool.xml.XMLWorkerHelper;
 import generatorDat.GeneratorDat;
-import it.grabz.grabzit.GrabzItClient;
+//import it.grabz.grabzit.GrabzItClient;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -279,13 +279,16 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(new File("output.html")));
         writer.write(html.html());
         writer.close();
+        /*
         GrabzItClient grabzIt = new GrabzItClient("", "");
         grabzIt.HTMLToPDF(html.html());
         grabzIt.SaveTo("output.pdf");
+        */
         }catch(Exception e){
             System.out.println("error happened: No data to display");
              System.err.println(e.getMessage());
         }
+        
         
     }
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
