@@ -387,20 +387,25 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        //celkove vytazenie zamestnanca
-        double[] yData = new double[] { 56,25,32,38,21 };
-        double[] xData = new double[] { 1998, 2003, 2008,2013,2018 };
 
-        // Create Chart
-        
-        
-        
-        String s = this.okno2(this.jadro.getDbManipulation().getZamestnanci(""), "Zamestnanci");
+        String s = this.okno2(this.jadro.getDbManipulation().getZamestnanciNaVyber(),"Zamestnanci");
         if ((s != null) && (s.length() > 0)) {
-            String[] ss = s.split("\\ ");
+            String[] ss = s.split("\\-");
+            
+            
+            
+            //celkove vytazenie zamestnanca
+            double[] yData = new double[] { 56,25,32,38,21 };
+            double[] xData = new double[] { 1998, 2003, 2008,2013,2018 };
+            
+            
             XYChart chart = QuickChart.getChart("Vykonnost zamestnanca " + ss[2] + " " + ss[3],
                     "X", "Y", "y(x)", xData, yData);
 
+            
+
+            
+            
             Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -504,8 +509,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         Object[] possibilities = {10,100,1000,100000};
         String s = (String)JOptionPane.showInputDialog(
                             this,
-                            "Complete the sentence:\n"
-                            + "\"Green eggs and...\"",
+                            "Vyber pocet ",
                             "Customized Dialog",
                             JOptionPane.PLAIN_MESSAGE,
                             null,
@@ -526,8 +530,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         Object[] possibilities = {10,100,1000,100000};
         String s = (String)JOptionPane.showInputDialog(
                             this,
-                            "Complete the sentence:\n"
-                            + "\"Green eggs and...\"",
+                            "Vyber pocet ",
                             "Customized Dialog",
                             JOptionPane.PLAIN_MESSAGE,
                             null,
@@ -543,8 +546,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         Object[] possibilities = {10,100,1000,100000};
         String s = (String)JOptionPane.showInputDialog(
                             this,
-                            "Complete the sentence:\n"
-                            + "\"Green eggs and...\"",
+                            "Vyber pocet ",
                             "Customized Dialog",
                             JOptionPane.PLAIN_MESSAGE,
                             null,
@@ -558,16 +560,18 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
         //okno na pocet
         Object[] possibilities = {10,100,1000,100000};
-        int s = (int)JOptionPane.showInputDialog(
+        String s = (String)JOptionPane.showInputDialog(
                             this,
-                            "Complete the sentence:\n"
-                            + "\"Green eggs and...\"",
+                            "Vyber pocet ",
                             "Customized Dialog",
                             JOptionPane.PLAIN_MESSAGE,
                             null,
                             possibilities,
                             "ham");
         //TODO: GENEROVANIE PROTOKOLOV
+        if(s != null){
+            
+        }
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
     private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
@@ -575,8 +579,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         Object[] possibilities = {10,100,1000,100000};
         String s = (String)JOptionPane.showInputDialog(
                             this,
-                            "Complete the sentence:\n"
-                            + "\"Green eggs and...\"",
+                            "Vyber pocet ",
                             "Customized Dialog",
                             JOptionPane.PLAIN_MESSAGE,
                             null,

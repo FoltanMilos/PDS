@@ -116,7 +116,7 @@ public class DBmanipulation {
         try {
             st = conn.createStatement();
             String sql;
-            sql = "Select rod_cislo,meno, priezvisko,dat_narodenia,id_typu, popis, id_zamestnanca, dat_od, nvl(dat_do,\"\") from s_os_udaje "
+            sql = "Select rod_cislo,meno, priezvisko,dat_narodenia,id_typu, popis, id_zamestnanca, datum_od from s_os_udaje "
                     + "join s_zamestnanec using(rod_cislo) join s_typ_pozicie using(id_typu)" + where;
             rs = st.executeQuery(sql);
 
@@ -153,6 +153,27 @@ public class DBmanipulation {
         } 
         return list;
     }
+    
+    
+    /**
+     * Milos
+     */
+    public String[] getZamestnanciNaVyber(){
+        ArrayList<String> list = new ArrayList<String>();
+        ResultSet rs = this.executeQuery("select id_zamestnanca, meno, priezvisko, rod_cislo from"
+                + " (select id_zamestnanca, meno, priezvisko, rod_cislo, row_number() over (order by rod_cislo) as rn"
+                + " from s_zamestnanec join s_os_udaje using(rod_cislo))where rn < 100");
+         try {
+            while(rs.next()){
+                list.add(rs.getString("id_zamestnanca") + "-" + rs.getString("meno") + "-" + rs.getString("priezvisko") + "-" +
+                        rs.getString("rod_cislo"));
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex.toString());
+        } 
+        return (String[])list.toArray(new String[0]);
+    }
+    
     
     //autor mato, potrebujem rodne cisla
     public Object[] getOsoby(){
