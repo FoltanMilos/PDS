@@ -78,12 +78,6 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -100,6 +94,12 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
+        jMenu6 = new javax.swing.JMenu();
+        jMenuItem8 = new javax.swing.JMenuItem();
+        jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
+        jMenuItem11 = new javax.swing.JMenuItem();
+        jMenuItem12 = new javax.swing.JMenuItem();
 
         jMenu1.setText("jMenu1");
 
@@ -121,60 +121,6 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         setResizable(false);
         getContentPane().setLayout(null);
 
-        jButton1.setText("Close");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jButton1);
-        jButton1.setBounds(870, 410, 62, 32);
-
-        jButton2.setText("GenerujZamest");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jButton2);
-        jButton2.setBounds(370, 270, 190, 32);
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "10", "100", "100000" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jComboBox1);
-        jComboBox1.setBounds(360, 230, 120, 26);
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "10", "100", "100000" }));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jComboBox2);
-        jComboBox2.setBounds(380, 310, 120, 26);
-
-        jButton3.setText("Generuj Vozidla");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jButton3);
-        jButton3.setBounds(360, 390, 180, 32);
-
-        jButton4.setText("jButton3");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jButton4);
-        jButton4.setBounds(400, 340, 77, 32);
-
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -189,12 +135,12 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         jScrollPane3.setViewportView(jTable2);
 
         getContentPane().add(jScrollPane3);
-        jScrollPane3.setBounds(490, 0, 440, 410);
+        jScrollPane3.setBounds(470, 0, 460, 440);
 
         jScrollPane4.setViewportView(jEditorPane1);
 
         getContentPane().add(jScrollPane4);
-        jScrollPane4.setBounds(0, 0, 360, 450);
+        jScrollPane4.setBounds(0, 0, 480, 440);
 
         jMenu2.setText("Menu");
 
@@ -267,14 +213,54 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu5);
 
+        jMenu6.setText("Generatory");
+
+        jMenuItem8.setText("Zamestnanci");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem8);
+
+        jMenuItem9.setText("Osobne udaje");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem9);
+
+        jMenuItem10.setText("Kontroly");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem10);
+
+        jMenuItem11.setText("Protokoly");
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem11);
+
+        jMenuItem12.setText("Vozidla");
+        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem12ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem12);
+
+        jMenuBar1.add(jMenu6);
+
         setJMenuBar(jMenuBar1);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        System.exit(0);
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         //vytazenie vsetkych zamestnancov
@@ -432,24 +418,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             this.jEditorPane1.setText("Nebol vybraty zamestnanec!");
         }
     }//GEN-LAST:event_jMenuItem3ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        this.gener.generujZamestnancov(Integer.parseInt(this.jComboBox1.getSelectedItem().toString()));
-        //sss
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
-
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
  
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        this.parseXMLToPDF("");
-    }//GEN-LAST:event_jButton3ActionPerformed
-
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         this.jEditorPane1.setText("Auta z stk");
         Osoba osoba = new Osoba("961003/6095".toCharArray(), "Milos", "Foltan", "1996-10-30".toCharArray());
@@ -529,6 +498,96 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+
+        //okno na pocet
+        Object[] possibilities = {10,100,1000,100000};
+        String s = (String)JOptionPane.showInputDialog(
+                            this,
+                            "Complete the sentence:\n"
+                            + "\"Green eggs and...\"",
+                            "Customized Dialog",
+                            JOptionPane.PLAIN_MESSAGE,
+                            null,
+                            possibilities,
+                            "ham");
+
+        //If a string was returned, say so.
+        //if ((s != null) && (s.length() > 0)) {
+        //    String[] ss = s.split("\\ ");
+        if(s != null){
+             this.gener.generujZamestnancov(Integer.parseInt(s));// Integer.parseInt(ss[0])
+        }
+       // }
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        //okno na pocet
+        Object[] possibilities = {10,100,1000,100000};
+        String s = (String)JOptionPane.showInputDialog(
+                            this,
+                            "Complete the sentence:\n"
+                            + "\"Green eggs and...\"",
+                            "Customized Dialog",
+                            JOptionPane.PLAIN_MESSAGE,
+                            null,
+                            possibilities,
+                            "ham");
+        if(s != null){
+         this.gener.generujObcanov(Integer.parseInt(s));// Integer.parseInt(ss[0])
+        }
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        //okno na pocet
+        Object[] possibilities = {10,100,1000,100000};
+        String s = (String)JOptionPane.showInputDialog(
+                            this,
+                            "Complete the sentence:\n"
+                            + "\"Green eggs and...\"",
+                            "Customized Dialog",
+                            JOptionPane.PLAIN_MESSAGE,
+                            null,
+                            possibilities,
+                            "ham");
+        if(s != null){
+         this.gener.generujKontroly(Integer.parseInt(s));// Integer.parseInt(ss[0])
+        }
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
+
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        //okno na pocet
+        Object[] possibilities = {10,100,1000,100000};
+        int s = (int)JOptionPane.showInputDialog(
+                            this,
+                            "Complete the sentence:\n"
+                            + "\"Green eggs and...\"",
+                            "Customized Dialog",
+                            JOptionPane.PLAIN_MESSAGE,
+                            null,
+                            possibilities,
+                            "ham");
+        //TODO: GENEROVANIE PROTOKOLOV
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
+
+    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
+        //okno na pocet
+        Object[] possibilities = {10,100,1000,100000};
+        String s = (String)JOptionPane.showInputDialog(
+                            this,
+                            "Complete the sentence:\n"
+                            + "\"Green eggs and...\"",
+                            "Customized Dialog",
+                            JOptionPane.PLAIN_MESSAGE,
+                            null,
+                            possibilities,
+                            "ham");
+        if(s != null){
+            this.gener.generujVozidla(Integer.parseInt(s));// Integer.parseInt(ss[0])
+        }
+         
+    }//GEN-LAST:event_jMenuItem12ActionPerformed
+
     
 
     
@@ -583,26 +642,26 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JEditorPane jEditorPane1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
