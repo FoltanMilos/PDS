@@ -11,9 +11,14 @@ import generatorDat.GeneratorDat;
 
 import java.io.File;
 import TableModels.TableModelVehicles;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.sql.ResultSet;
@@ -74,8 +79,6 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         jButton2 = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
         jComboBox2 = new javax.swing.JComboBox<>();
@@ -83,6 +86,8 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jEditorPane1 = new javax.swing.JEditorPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -92,6 +97,9 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         jMenu4 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
 
         jMenu1.setText("jMenu1");
 
@@ -122,13 +130,6 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         getContentPane().add(jButton1);
         jButton1.setBounds(870, 410, 62, 32);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
-
-        getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(250, 10, 160, 430);
-
         jButton2.setText("GenerujZamest");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -136,7 +137,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton2);
-        jButton2.setBounds(30, 240, 190, 32);
+        jButton2.setBounds(370, 270, 190, 32);
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "10", "100", "100000" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
@@ -145,7 +146,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jComboBox1);
-        jComboBox1.setBounds(40, 200, 120, 26);
+        jComboBox1.setBounds(360, 230, 120, 26);
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "10", "100", "100000" }));
         jComboBox2.addActionListener(new java.awt.event.ActionListener() {
@@ -154,7 +155,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jComboBox2);
-        jComboBox2.setBounds(40, 280, 120, 26);
+        jComboBox2.setBounds(380, 310, 120, 26);
 
         jButton3.setText("Generuj Vozidla");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -163,7 +164,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton3);
-        jButton3.setBounds(20, 360, 180, 32);
+        jButton3.setBounds(360, 390, 180, 32);
 
         jButton4.setText("jButton3");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -172,7 +173,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton4);
-        jButton4.setBounds(60, 310, 77, 32);
+        jButton4.setBounds(400, 340, 77, 32);
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -189,6 +190,11 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane3);
         jScrollPane3.setBounds(490, 0, 440, 410);
+
+        jScrollPane4.setViewportView(jEditorPane1);
+
+        getContentPane().add(jScrollPane4);
+        jScrollPane4.setBounds(0, 0, 360, 450);
 
         jMenu2.setText("Menu");
 
@@ -235,6 +241,30 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         });
         jMenu5.add(jMenuItem4);
 
+        jMenuItem5.setText("Zamestnanci");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem5);
+
+        jMenuItem6.setText("Poruchy auta");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem6);
+
+        jMenuItem7.setText("Kontroly");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem7);
+
         jMenuBar1.add(jMenu5);
 
         setJMenuBar(jMenuBar1);
@@ -251,7 +281,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         JSliderOnJOptionPane ret = new JSliderOnJOptionPane();
         int[] retval = ret.mJSliderOnJOptionPane(this);
         String odpoved = this.jadro.getDbManipulation().executeProcedure("analyzaVytazeniaZamestnancov("+retval[0]+","+retval[1]+")")  ;  //reportVytazeniaZamestnancov(retval[0],retval[1]);
-        this.jTextArea1.setText(odpoved);
+        this.jEditorPane1.setText(odpoved);
         //tu parsuj XML
          try{
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -397,9 +427,9 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
 
             });
             t.start();
-            this.jTextArea1.setText(this.jadro.getDbManipulation().reportVytazeniaZam(ss[1].trim()));
+            this.jEditorPane1.setText(this.jadro.getDbManipulation().reportVytazeniaZam(ss[1].trim()));
         }else{
-            this.jTextArea1.setText("Nebol vybraty zamestnanec!");
+            this.jEditorPane1.setText("Nebol vybraty zamestnanec!");
         }
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
@@ -421,7 +451,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        this.jTextArea1.setText("Auta z stk");
+        this.jEditorPane1.setText("Auta z stk");
         Osoba osoba = new Osoba("961003/6095".toCharArray(), "Milos", "Foltan", "1996-10-30".toCharArray());
         
         ResultSet executeQuery = this.jadro.getDbManipulation().executeQuery("select * from s_vozidlo");
@@ -432,6 +462,72 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             Logger.getLogger(HlavneOknoGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        ResultSet executeQuery = this.jadro.getDbManipulation().executeQuery("select id_zamestnanca,meno,priezvisko from (select id_zamestnanca,meno,priezvisko, row_number() over(order by rod_cislo)"
+                + " as rn from s_zamestnanec"
+                + " join s_os_udaje using(rod_cislo)) where rn < 20");
+        try {
+            this.jTable2.setModel(TableModels.UniversalTableModel.buildTableModel(executeQuery));
+        } catch (SQLException ex) {
+            Logger.getLogger(HlavneOknoGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        String s = this.okno2(this.jadro.getDbManipulation().getVehicles(),"Vozidlo");
+        String podm = "";
+        if ((s != null) && (s.length() > 0)) {
+            String[] ss = s.split("\\-");
+            podm = ss[0];
+            
+
+            ResultSet executeQuery = this.jadro.getDbManipulation().executeQuery("select id_kontroly,popis_typu as popisKontroly,"
+                    + " s_stav_vozidla.popis as popisStavu"
+                    + " from s_protokol join s_kontrola using "
+                    + "(id_kontroly) join s_typ_kontroly using(id_typu) join s_stav_vozidla using(id_stavu) where id_vozidla =" + podm);
+
+            try {
+                this.jTable2.setModel(TableModels.UniversalTableModel.buildTableModel(executeQuery));
+            } catch (SQLException ex) {
+                Logger.getLogger(HlavneOknoGUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+         String xml =  "";
+        
+        BufferedReader in = null;
+        try {
+            in = new BufferedReader(new FileReader("tmp.html"));
+            String lane = "";
+            while((lane = in.readLine()) != null){
+                xml += lane;
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(HlavneOknoGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(HlavneOknoGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+                 
+                 
+        this.jEditorPane1.setContentType("text/html");
+         this.jEditorPane1.setText(xml);
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     
 
@@ -493,6 +589,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JEditorPane jEditorPane1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -503,11 +600,13 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 }

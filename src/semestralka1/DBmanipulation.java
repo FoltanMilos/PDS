@@ -73,11 +73,18 @@ public class DBmanipulation {
     }
   
     
-    public Object[] getVehicles(){
-        ArrayList<Object> list = new ArrayList<Object>();
+    public String[] getVehicles(){
+        ArrayList<String> list = new ArrayList<String>();
         ResultSet rs = this.executeQuery("select * from s_vozidlo");
-        
-        return list.toArray();
+        try {
+            while(rs.next()){
+                list.add(rs.getString("Id") + "-" + rs.getString("vlastnik_rc") + "-" + rs.getString("znacka") + "-" +
+                        rs.getString("cena")  + "-" + rs.getString("rok_vyroby"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBmanipulation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return (String[])list.toArray(new String[0]);
     }
     
     
