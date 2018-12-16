@@ -6,13 +6,11 @@
 package GUI;
 
 
-import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.tool.xml.XMLWorkerHelper;
 import generatorDat.GeneratorDat;
 //import it.grabz.grabzit.GrabzItClient;
 
 import java.io.File;
-import java.io.FileInputStream;
+import TableModels.TableModelVehicles;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -36,9 +34,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import semestralka1.Jadro;
-import java.io.OutputStream;
-import java.nio.charset.Charset;
-import org.xhtmlrenderer.pdf.ITextRenderer;
 /**
  *
  * @author folko
@@ -70,6 +65,8 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenu1 = new javax.swing.JMenu();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
@@ -77,6 +74,9 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox<>();
         jComboBox2 = new javax.swing.JComboBox<>();
         jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -84,11 +84,26 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
+        jMenu5 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
 
         jMenu1.setText("jMenu1");
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable1);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(650, 450));
+        setMinimumSize(new java.awt.Dimension(950, 500));
         setResizable(false);
         getContentPane().setLayout(null);
 
@@ -99,14 +114,14 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton1);
-        jButton1.setBounds(580, 360, 62, 32);
+        jButton1.setBounds(870, 410, 62, 32);
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(280, 10, 360, 340);
+        jScrollPane1.setBounds(250, 10, 350, 370);
 
         jButton2.setText("GenerujZamest");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -115,7 +130,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton2);
-        jButton2.setBounds(10, 60, 190, 32);
+        jButton2.setBounds(30, 240, 190, 32);
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "10", "100", "100000" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
@@ -124,7 +139,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jComboBox1);
-        jComboBox1.setBounds(20, 20, 120, 26);
+        jComboBox1.setBounds(40, 200, 120, 26);
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "10", "100", "100000" }));
         jComboBox2.addActionListener(new java.awt.event.ActionListener() {
@@ -133,7 +148,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jComboBox2);
-        jComboBox2.setBounds(20, 120, 120, 26);
+        jComboBox2.setBounds(40, 280, 120, 26);
 
         jButton3.setText("Generuj Vozidla");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -142,7 +157,32 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton3);
-        jButton3.setBounds(20, 160, 180, 32);
+        jButton3.setBounds(20, 360, 180, 32);
+
+        jButton4.setText("jButton3");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton4);
+        jButton4.setBounds(60, 310, 77, 32);
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(jTable2);
+
+        getContentPane().add(jScrollPane3);
+        jScrollPane3.setBounds(610, 0, 320, 410);
 
         jMenu2.setText("Menu");
 
@@ -178,6 +218,18 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
 
         jMenu4.setText("PDF report");
         jMenuBar1.add(jMenu4);
+
+        jMenu5.setText("Pohľady");
+
+        jMenuItem4.setText("Vozidla stk");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem4);
+
+        jMenuBar1.add(jMenu5);
 
         setJMenuBar(jMenuBar1);
 
@@ -362,6 +414,14 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         this.parseXMLToPDF("");
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        this.jTextArea1.setText("Auta z stk");
+        Object[][] data = new Object[][]{{"Auto1","Auto1","Auto1","Auto1","Auto1"},{"Auto2","Auto2","Auto2","Auto2","Auto2"}};
+        
+        TableModelVehicles tblModel = new TableModelVehicles(data);
+        this.jTable2.setModel(tblModel);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -416,17 +476,24 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 }
