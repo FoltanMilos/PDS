@@ -63,5 +63,8 @@ public class Osoba {
         return "Osoba{" + "rod_cislo=" + String.valueOf(this.rod_cislo) + ", meno=" + meno + ", priezvisko=" + priezvisko + ", datumNarodenia=" + String.valueOf(this.datumNarodenia) + '}';
     }
     
+    public String[] toTableModel(){
+        return new String[]{this.meno,this.priezvisko,this.meno,this.priezvisko,this.meno};
+    }
     
 }

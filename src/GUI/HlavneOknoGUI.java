@@ -16,12 +16,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.StringReader;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.Vector;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import org.knowm.xchart.XYChart;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.jsoup.Jsoup;
@@ -34,6 +39,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import semestralka1.Jadro;
+import semestralka1.Osoba;
 /**
  *
  * @author folko
@@ -121,7 +127,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTextArea1);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(250, 10, 350, 370);
+        jScrollPane1.setBounds(250, 10, 160, 430);
 
         jButton2.setText("GenerujZamest");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -182,7 +188,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         jScrollPane3.setViewportView(jTable2);
 
         getContentPane().add(jScrollPane3);
-        jScrollPane3.setBounds(610, 0, 320, 410);
+        jScrollPane3.setBounds(490, 0, 440, 410);
 
         jMenu2.setText("Menu");
 
@@ -416,12 +422,20 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         this.jTextArea1.setText("Auta z stk");
-        Object[][] data = new Object[][]{{"Auto1","Auto1","Auto1","Auto1","Auto1"},{"Auto2","Auto2","Auto2","Auto2","Auto2"}};
+        Osoba osoba = new Osoba("961003/6095".toCharArray(), "Milos", "Foltan", "1996-10-30".toCharArray());
         
-        TableModelVehicles tblModel = new TableModelVehicles(data);
-        this.jTable2.setModel(tblModel);
+        ResultSet executeQuery = this.jadro.getDbManipulation().executeQuery("select * from s_vozidlo");
+        
+        try {
+            this.jTable2.setModel(TableModels.UniversalTableModel.buildTableModel(executeQuery));
+        } catch (SQLException ex) {
+            Logger.getLogger(HlavneOknoGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
+    
+
+    
     /**
      * @param args the command line arguments
      */

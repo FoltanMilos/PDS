@@ -37,5 +37,26 @@ public class TableModelVehicles extends AbstractTableModel{
         return this.data[rowIndex][columnIndex];
     }
     
+    @Override
+    public String getColumnName(int col) {
+      return this.collNames[col];
+    }
+
+    public String[] getCollNames() {
+        return collNames;
+    }
+
+    public void setCollNames(String[] collNames) {
+        this.collNames = collNames;
+    }
+
+    public Object[][] getData() {
+        return data;
+    }
+
+    public void setData(Object[][] data) {
+        this.data = data;
+    }
+    
     
 }

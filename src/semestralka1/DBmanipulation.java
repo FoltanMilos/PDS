@@ -71,11 +71,14 @@ public class DBmanipulation {
         
         
     }
+  
     
-    
-    
-    
-    
+    public Object[] getVehicles(){
+        ArrayList<Object> list = new ArrayList<Object>();
+        ResultSet rs = this.executeQuery("select * from s_vozidlo");
+        
+        return list.toArray();
+    }
     
     
     public void insert(String tabulka, Object object){
@@ -109,10 +112,7 @@ public class DBmanipulation {
             sql = "Select rod_cislo,meno, priezvisko,dat_narodenia,id_typu, popis, id_zamestnanca, dat_od, nvl(dat_do,\"\") from s_os_udaje "
                     + "join s_zamestnanec using(rod_cislo) join s_typ_pozicie using(id_typu)" + where;
             rs = st.executeQuery(sql);
-            
-           // sql = "Select * from s_os_udaje";
-                    
-            //rs = st.executeQuery(sql);
+
         } catch (SQLException ex) {
             System.err.println(ex.toString());
         }
@@ -133,15 +133,7 @@ public class DBmanipulation {
     
     public ArrayList<Integer> getZamestnanciVladko(){
         ArrayList<Integer> list = new ArrayList<Integer>();
-        ResultSet rs = null;
-        try {
-            st = conn.createStatement();
-            String sql;
-            sql = "Select id_zamestnanca from s_zamestnanec";
-            rs = st.executeQuery(sql);
-        } catch (SQLException ex) {
-            System.err.println(ex.toString());
-        }
+        ResultSet rs =  this.executeQuery("Select id_zamestnanca from s_zamestnanec");
         try {
             int i = 0;
             while(i < 100){
@@ -158,15 +150,7 @@ public class DBmanipulation {
     //autor mato, potrebujem rodne cisla
     public Object[] getOsoby(){
         ArrayList<Object> list = new ArrayList<Object>();
-        ResultSet rs = null;
-        try {
-            st = conn.createStatement();
-            String sql;
-            sql = "Select rod_cislo,meno, priezvisko,dat_narodenia from s_os_udaje";
-            rs = st.executeQuery(sql);
-        } catch (SQLException ex) {
-            System.err.println(ex.toString());
-        }
+        ResultSet rs = this.executeQuery("Select rod_cislo,meno, priezvisko,dat_narodenia from s_os_udaje");
         try {
             int i = 0;
             while(i < 101){
@@ -181,6 +165,29 @@ public class DBmanipulation {
         } 
         return list.toArray();
     }
+    
+    
+    
+    
+    /**
+     * Executne Query
+     * @param queryStatement
+     * @return 
+     */
+    public ResultSet executeQuery(String queryStatement){
+        ResultSet rs = null;
+        try {
+            st = conn.createStatement();
+            String sql;
+            sql = queryStatement;
+            rs = st.executeQuery(sql);
+        } catch (SQLException ex) {
+            System.err.println(ex.toString());
+        }
+        return rs;
+    }
+    
+    
     
     
     /**
