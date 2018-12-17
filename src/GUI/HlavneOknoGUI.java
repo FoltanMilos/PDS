@@ -88,6 +88,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem13 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
@@ -171,6 +172,14 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             }
         });
         jMenu3.add(jMenuItem3);
+
+        jMenuItem13.setText("Podiel na kontrolach");
+        jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem13ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem13);
 
         jMenuBar1.add(jMenu3);
 
@@ -267,6 +276,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         JSliderOnJOptionPane ret = new JSliderOnJOptionPane();
         int[] retval = ret.mJSliderOnJOptionPane(this);
         String odpoved = this.jadro.getDbManipulation().executeProcedure("analyzaVytazeniaZamestnancov("+retval[0]+","+retval[1]+")")  ;  //reportVytazeniaZamestnancov(retval[0],retval[1]);
+        this.jEditorPane1.setContentType("text");
         this.jEditorPane1.setText(odpoved);
         //tu parsuj XML
          try{
@@ -475,7 +485,8 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         
         BufferedReader in = null;
         try {
-            in = new BufferedReader(new FileReader("tmp.html"));
+            in = new BufferedReader(new FileReader("output.html"));
+            
             String lane = "";
             while((lane = in.readLine()) != null){
                 xml += lane;
@@ -485,6 +496,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(HlavneOknoGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         
                  
                  
@@ -591,6 +603,23 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
          
     }//GEN-LAST:event_jMenuItem12ActionPerformed
 
+    private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
+
+        ResultSet executeQuery = this.jadro.getDbManipulation().executeQuery("select id_zamestnanca, meno, priezvisko, trunc(count(id_kontroly)/podiel_na_kontrolach(),2)*100 || '%'  as podielNaKontrolach from s_os_udaje join s_zamestnanec sz using(rod_cislo)\n" +
+"        left join s_kontrola using (id_zamestnanca)\n" +
+"            join s_typ_pozicie stp on(sz.id_typu=stp.id_typu)\n" +
+"                where stp.id_typu=6 \n" +
+"                    group by meno, priezvisko,  id_zamestnanca\n" +
+"                        order by podielNaKontrolach desc");
+
+        try {
+            this.jTable2.setModel(TableModels.UniversalTableModel.buildTableModel(executeQuery));
+        } catch (SQLException ex) {
+            Logger.getLogger(HlavneOknoGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_jMenuItem13ActionPerformed
+
     
 
     
@@ -657,6 +686,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
+    private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;

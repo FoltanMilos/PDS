@@ -181,7 +181,7 @@ public class DBmanipulation {
         ResultSet rs = this.executeQuery("Select rod_cislo,meno, priezvisko,dat_narodenia from s_os_udaje");
         try {
             int i = 0;
-            while(i < 101){
+            while(i < 320){
                 rs.next();
                 Osoba osoba = new Osoba(rs.getString("rod_cislo").toCharArray(),rs.getString("meno"), rs.getString("priezvisko"),
                         rs.getString("dat_narodenia").toCharArray());

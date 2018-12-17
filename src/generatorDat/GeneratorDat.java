@@ -270,9 +270,10 @@ public class GeneratorDat {
         System.out.println(osoba.toString());
     }
     
-    //generator zamestnancov autor:Mato
+    //generator zamestnancov autor:Milos
     public void generujZamestnancov(int pocet) {
         Object[] osoby = this.db.getOsoby();
+        //-pride ich 320
         BufferedWriter writer = null;
         String csvFile = "Zamestnanci.dat";
         try {
