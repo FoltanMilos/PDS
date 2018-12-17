@@ -316,7 +316,7 @@ public class DBmanipulation {
         //null ked sa odchyta vynimka
         return null;
     }
-    
+
     
     
     

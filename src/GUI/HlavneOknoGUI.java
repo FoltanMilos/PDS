@@ -89,6 +89,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem13 = new javax.swing.JMenuItem();
+        jMenuItem14 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
@@ -180,6 +181,14 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             }
         });
         jMenu3.add(jMenuItem13);
+
+        jMenuItem14.setText("Analýza tržieb za celé obdobie");
+        jMenuItem14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem14ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem14);
 
         jMenuBar1.add(jMenu3);
 
@@ -614,6 +623,40 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jMenuItem13ActionPerformed
 
+    private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
+        //analyza tryieb ya cele obdobie
+        String clobXML = this.jadro.getDbManipulation().executeProcedure("analyzatrzieb()");
+        //Tu sprav to iste co predTym
+        
+        
+        //KUBOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+        //JE TO PO ROKOCH
+         double[] yData = new double[] { 56,25,32,38,21 };
+            double[] xData = new double[] { 1998, 2003, 2008,2013,2018 };
+            
+            //hlavicka tabulky
+            XYChart chart = QuickChart.getChart("Vykonnost zamestnanca ",
+                    "X", "Y", "y(x)", xData, yData);
+
+            
+
+            
+            
+            Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                
+                SwingWrapper swingWrapper = new SwingWrapper(chart); //.displayChart();
+                JFrame displayChart = swingWrapper.displayChart();
+                displayChart.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                
+            }
+
+            });
+            t.start();
+        
+    }//GEN-LAST:event_jMenuItem14ActionPerformed
+
     
 
     
@@ -681,6 +724,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
+    private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
