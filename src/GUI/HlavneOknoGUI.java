@@ -311,7 +311,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jMenuItem1ActionPerformed
     
-    private void parseXMLToPDF(String xml){
+    private String parseXMLToPDF(String xml){
         xml = "<?xml version=\"1.0\"?>\n" +
             "<ROWSET>\n" +
             " <ROW>\n" +
@@ -329,7 +329,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             "  <TYP_KONTROLY>Technicka kontrola - osobne</TYP_KONTROLY>\n" +
             " </ROW>\n" +
             "</ROWSET>\n";
- 
+        String result = "";
         try{
         File file = new File("tmp.html");
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -361,20 +361,13 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             content.appendChild(contentRow);
             
         }
-        OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(new File("output.html")));
-        writer.write(html.html());
-        writer.close();
-        /*
-        GrabzItClient grabzIt = new GrabzItClient("", "");
-        grabzIt.HTMLToPDF(html.html());
-        grabzIt.SaveTo("output.pdf");
-        */
+        result = html.html();
         }catch(Exception e){
             System.out.println("error happened: No data to display");
              System.err.println(e.getMessage());
         }
         
-        
+        return result;
     }
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         double[] yData = new double[] { 56,25,32,38,21 };
@@ -495,6 +488,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(HlavneOknoGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
+        xml =  this.parseXMLToPDF("");
         
         
                  
