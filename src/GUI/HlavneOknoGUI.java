@@ -11,6 +11,7 @@ import generatorDat.GeneratorDat;
 
 import java.io.File;
 import TableModels.TableModelVehicles;
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -36,6 +37,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
+import org.knowm.xchart.PieChart;
+import org.knowm.xchart.PieChartBuilder;
 import org.knowm.xchart.QuickChart;
 import org.knowm.xchart.SwingWrapper;
 import org.w3c.dom.Document;
@@ -438,7 +441,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             });
             t.start();
             this.jEditorPane1.setContentType("text/html");
-            this.jEditorPane1.setText(this.jadro.getDbManipulation().reportVytazeniaZam(ss[1].trim()));
+            this.jEditorPane1.setText(this.jadro.getDbManipulation().reportVytazeniaZam( ss[3].trim()));
         }else{
             this.jEditorPane1.setText("Nebol vybraty zamestnanec!");
         }
@@ -668,6 +671,25 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
 
     private void jMenuItem15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem15ActionPerformed
         //analyza poruchovosti aut
+        /*
+        Object[] possibilities = {"osobne","kamiony","autobusy"};
+        String s = (String)JOptionPane.showInputDialog(
+                            this,
+                            "Vyberte typ vozidiel ",
+                            "Customized Dialog",
+                            JOptionPane.PLAIN_MESSAGE,
+                            null,
+                            possibilities,
+                            "osobne");
+
+        //If a string was returned, say so.
+        //if ((s != null) && (s.length() > 0)) {
+        //    String[] ss = s.split("\\ ");
+        if(s != null){
+            
+        }
+        */
+        
         ResultSet executeQuery = this.jadro.getDbManipulation().executeQuery("select value(a).id as id_auta,id_protokolu,sv.popis as stav,sp.popis,popis_typu as typKontroly, datum_kontroly \n" +
 "from s_vozidlo a join s_protokol sp on(sp.id_vozidla=value(a).id)\n" +
 "    join s_stav_vozidla sv using(id_stavu)\n" +
@@ -681,8 +703,50 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             Logger.getLogger(HlavneOknoGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        
-        
+        //ESTE PIE CHART
+        PieChart chart = new PieChartBuilder().width(800).height(600).title(getClass().getSimpleName()).build();
+ 
+            // Customize Chart
+            Color[] sliceColors = new Color[] { new Color(224, 68, 14), new Color(230, 105, 62), new Color(236, 143, 110)};
+            chart.getStyler().setSeriesColors(sliceColors);
+
+            // Series
+            
+            executeQuery = this.jadro.getDbManipulation().executeQuery("select\n" +
+"    count(case when value(a) is of (only s_trieda_auto) then 1 end) as osobne,\n" +
+"    count(case when value(a) is of (only s_trieda_kamion) then 1 end) as kamion,\n" +
+"    count(case when value(a) is of (only s_trieda_autobus) then 1 end) as autobus\n" +
+"from s_vozidlo a join s_protokol sp on(sp.id_vozidla=value(a).id)\n" +
+"   join s_stav_vozidla sv using(id_stavu)\n" +
+"        join s_kontrola using(id_kontroly)\n" +
+"            join s_typ_kontroly using(id_typu)\n" +
+"                where id_stavu in (2,3,5,7)");
+            
+         
+            
+        try {
+            executeQuery.next();
+            chart.addSeries("osobne", Integer.parseInt(executeQuery.getString("osobne")));
+            chart.addSeries("kamiony", Integer.parseInt(executeQuery.getString("kamion")));
+            chart.addSeries("autobusy", Integer.parseInt(executeQuery.getString("autobus")));
+        } catch (SQLException ex) {
+            Logger.getLogger(HlavneOknoGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+
+         Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() { 
+               // pieChart pie = new pieChart();
+                
+              SwingWrapper swingWrapper = new SwingWrapper(chart); //.displayChart();
+               JFrame displayChart = swingWrapper.displayChart();
+                displayChart.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                
+            }
+
+            });
+            t.start();
     }//GEN-LAST:event_jMenuItem15ActionPerformed
 
     
@@ -769,3 +833,5 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
     private javax.swing.JTable jTable2;
     // End of variables declaration//GEN-END:variables
 }
+
+
