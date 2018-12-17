@@ -160,9 +160,10 @@ public class DBmanipulation {
      */
     public String[] getZamestnanciNaVyber(){
         ArrayList<String> list = new ArrayList<String>();
-        ResultSet rs = this.executeQuery("select id_zamestnanca, meno, priezvisko, rod_cislo from"
-                + " (select id_zamestnanca, meno, priezvisko, rod_cislo, row_number() over (order by rod_cislo) as rn"
-                + " from s_zamestnanec join s_os_udaje using(rod_cislo))where rn < 100");
+        ResultSet rs = this.executeQuery("select id_zamestnanca, meno, priezvisko, rod_cislo"
+                + " from s_zamestnanec join s_os_udaje using(rod_cislo) "
+                + "where datum_do is null or datum_do > sysdate " 
+                + "order by id_zamestnanca");
          try {
             while(rs.next()){
                 list.add(rs.getString("id_zamestnanca") + "-" + rs.getString("meno") + "-" + rs.getString("priezvisko") + "-" +
@@ -295,7 +296,7 @@ public class DBmanipulation {
             ResultSet rs = null;
             String sql = "";
             
-            CallableStatement stmt = conn.prepareCall("{ ? = call analyzaVytazeniaZam('"+rod_cislo+"')}");
+            CallableStatement stmt = conn.prepareCall("{ ? = call vykonyZamestnanca('"+rod_cislo+"')}");
             stmt.registerOutParameter(1, Types.CLOB);
             
             stmt.execute();
