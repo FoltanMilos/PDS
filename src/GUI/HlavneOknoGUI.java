@@ -96,6 +96,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         jMenuItem15 = new javax.swing.JMenuItem();
         jMenuItem16 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
+        jMenuItem17 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
@@ -213,7 +214,21 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu3);
 
-        jMenu4.setText("PDF report");
+        jMenu4.setText("Indexy");
+        jMenu4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu4ActionPerformed(evt);
+            }
+        });
+
+        jMenuItem17.setText("Zobraz indexy");
+        jMenuItem17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem17ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem17);
+
         jMenuBar1.add(jMenu4);
 
         jMenu5.setText("Pohľady");
@@ -820,6 +835,33 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jMenuItem16ActionPerformed
 
+    private void jMenu4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu4ActionPerformed
+       
+       
+    }//GEN-LAST:event_jMenu4ActionPerformed
+
+    private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
+        //zobrazenie idexov
+        ResultSet executeQuery = this.jadro.getDbManipulation().executeQuery("select * from ALL_INDEXES");
+         this.jEditorPane1.setContentType("text");
+         
+         String ret = "";
+        try {
+            while(executeQuery.next()){
+                ret += executeQuery.getString("constraint_name") + "\n";
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(HlavneOknoGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
+         
+         this.jEditorPane1.setText(ret);
+         
+         
+           
+         
+    }//GEN-LAST:event_jMenuItem17ActionPerformed
+
     
 
     
@@ -890,6 +932,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem15;
     private javax.swing.JMenuItem jMenuItem16;
+    private javax.swing.JMenuItem jMenuItem17;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
