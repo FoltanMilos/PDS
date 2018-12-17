@@ -94,6 +94,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         jMenuItem13 = new javax.swing.JMenuItem();
         jMenuItem14 = new javax.swing.JMenuItem();
         jMenuItem15 = new javax.swing.JMenuItem();
+        jMenuItem16 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
@@ -201,6 +202,14 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             }
         });
         jMenu3.add(jMenuItem15);
+
+        jMenuItem16.setText("Analýza stavu vozidiel");
+        jMenuItem16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem16ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem16);
 
         jMenuBar1.add(jMenu3);
 
@@ -749,6 +758,68 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             t.start();
     }//GEN-LAST:event_jMenuItem15ActionPerformed
 
+    private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
+        //analyza voyidielv systeme
+        Object[] possibilities = {"auto","kamion","autobus"};
+        String s = (String)JOptionPane.showInputDialog(
+                            this,
+                            "Vyberte typ vozidiel ",
+                            "Customized Dialog",
+                            JOptionPane.PLAIN_MESSAGE,
+                            null,
+                            possibilities,
+                            "osobne");
+
+        //If a string was returned, say so.
+        //if ((s != null) && (s.length() > 0)) {
+        //    String[] ss = s.split("\\ ");
+        if(s != null){
+            
+        }
+        
+        ResultSet executeQuery = this.jadro.getDbManipulation().executeQuery("select\n" +
+"    count(case when id_stavu in (1,4,6) then 1  end) as presli,\n" +
+"    count(case when id_stavu in (2,3,5,7) then 1  end) as nepresli\n" +
+" from s_vozidlo a join s_protokol sp on(sp.id_vozidla=value(a).id)\n" +
+"   join s_stav_vozidla sv using(id_stavu)\n" +
+"        join s_kontrola using(id_kontroly)\n" +
+"            join s_typ_kontroly using(id_typu)"
+                + " where value(a)  is of (s_trieda_" + s.trim() +")"
+        );
+            //ESTE PIE CHART
+         PieChart chart = new PieChartBuilder().width(800).height(600).title(getClass().getSimpleName()).build();
+
+         // Customize Chart
+         Color[] sliceColors = new Color[] { new Color(224, 68, 14), new Color(230, 105, 62), new Color(236, 143, 110)};
+         chart.getStyler().setSeriesColors(sliceColors);
+         
+         chart.setTitle(s);
+
+        try {
+            executeQuery.next();
+            chart.addSeries("Presli kontrolou", Integer.parseInt(executeQuery.getString("presli")));
+            chart.addSeries("Nepresli kontrolou", Integer.parseInt(executeQuery.getString("nepresli")));
+        } catch (SQLException ex) {
+            Logger.getLogger(HlavneOknoGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+
+         Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() { 
+               // pieChart pie = new pieChart();
+                
+              SwingWrapper swingWrapper = new SwingWrapper(chart); //.displayChart();
+               JFrame displayChart = swingWrapper.displayChart();
+                displayChart.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                
+            }
+
+            });
+            t.start();
+        
+    }//GEN-LAST:event_jMenuItem16ActionPerformed
+
     
 
     
@@ -818,6 +889,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem15;
+    private javax.swing.JMenuItem jMenuItem16;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
