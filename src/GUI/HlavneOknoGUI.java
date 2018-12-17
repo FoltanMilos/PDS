@@ -157,7 +157,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
 
         jMenu3.setText("Reporty");
 
-        jMenuItem1.setText("VytazenostZamestnancov");
+        jMenuItem1.setText("Vyťaženie zamestnancov(XML)");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
@@ -173,7 +173,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem3);
 
-        jMenuItem13.setText("Podiel na kontrolach");
+        jMenuItem13.setText("Vyťaženie zamestnancov");
         jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem13ActionPerformed(evt);
@@ -279,6 +279,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         this.jEditorPane1.setContentType("text");
         this.jEditorPane1.setText(odpoved);
         //tu parsuj XML
+        /*
          try{
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 	DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -306,7 +307,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         }catch(Exception e){
             System.out.println("error happened: No data to display");
         }
-        
+        */
         
     }//GEN-LAST:event_jMenuItem1ActionPerformed
     
@@ -401,14 +402,11 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         String s = this.okno2(this.jadro.getDbManipulation().getZamestnanciNaVyber(),"Zamestnanci");
         if ((s != null) && (s.length() > 0)) {
             String[] ss = s.split("\\-");
-            
-            
-            
             //celkove vytazenie zamestnanca
             double[] yData = new double[] { 56,25,32,38,21 };
             double[] xData = new double[] { 1998, 2003, 2008,2013,2018 };
             
-            
+            //hlavicka tabulky
             XYChart chart = QuickChart.getChart("Vykonnost zamestnanca " + ss[2] + " " + ss[3],
                     "X", "Y", "y(x)", xData, yData);
 
@@ -428,6 +426,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
 
             });
             t.start();
+            this.jEditorPane1.setContentType("text/html");
             this.jEditorPane1.setText(this.jadro.getDbManipulation().reportVytazeniaZam(ss[1].trim()));
         }else{
             this.jEditorPane1.setText("Nebol vybraty zamestnanec!");
