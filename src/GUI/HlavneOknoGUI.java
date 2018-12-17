@@ -609,6 +609,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
 "        left join s_kontrola using (id_zamestnanca)\n" +
 "            join s_typ_pozicie stp on(sz.id_typu=stp.id_typu)\n" +
 "                where stp.id_typu=6 \n" +
+                "and (datum_do is null or datum_do > sysdate)" +
 "                    group by meno, priezvisko,  id_zamestnanca\n" +
 "                        order by podielNaKontrolach desc");
 
