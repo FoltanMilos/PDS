@@ -90,6 +90,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem13 = new javax.swing.JMenuItem();
         jMenuItem14 = new javax.swing.JMenuItem();
+        jMenuItem15 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
@@ -189,6 +190,14 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             }
         });
         jMenu3.add(jMenuItem14);
+
+        jMenuItem15.setText("Analýza poruchovosti áut");
+        jMenuItem15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem15ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem15);
 
         jMenuBar1.add(jMenu3);
 
@@ -657,6 +666,25 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jMenuItem14ActionPerformed
 
+    private void jMenuItem15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem15ActionPerformed
+        //analyza poruchovosti aut
+        ResultSet executeQuery = this.jadro.getDbManipulation().executeQuery("select value(a).id as id_auta,id_protokolu,sv.popis as stav,sp.popis,popis_typu as typKontroly, datum_kontroly \n" +
+"from s_vozidlo a join s_protokol sp on(sp.id_vozidla=value(a).id)\n" +
+"    join s_stav_vozidla sv using(id_stavu)\n" +
+"        join s_kontrola using(id_kontroly)\n" +
+"            join s_typ_kontroly using(id_typu)\n" +
+"                where id_stavu in (2,3,5,7)");
+
+        try {
+            this.jTable2.setModel(TableModels.UniversalTableModel.buildTableModel(executeQuery));
+        } catch (SQLException ex) {
+            Logger.getLogger(HlavneOknoGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        
+    }//GEN-LAST:event_jMenuItem15ActionPerformed
+
     
 
     
@@ -725,6 +753,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem14;
+    private javax.swing.JMenuItem jMenuItem15;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
