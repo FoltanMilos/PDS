@@ -19,15 +19,21 @@ th, td{
     padding-right: 1vw; 
     text-align: center;
 }
-tr{
+
+.table>tbody>tr{
+    width: 100%;
+    border-bottom:1px solid black;
+}
+.table-header>tr{
     width: 100%;
     border-bottom:2px solid black;
 }
-
 .table{
     width: 100%;
     margin-top: 2vh;
-    margin-bottom: 1vh;    
+    margin-bottom: 1vh; 
+
+    
 }
 .content{
     margin: 0 auto;
@@ -57,14 +63,6 @@ tr{
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="col">Milos</td>
-                        <td class="col">Foltan</td>
-                        <td class="col">1</td>
-                        <td class="col">Udrzbar</td>
-                        <td class="col">2018.01.01</td>
-                        <td class="col" >-</td>
-                    </tr>
                 </tbody>
             </table>
         </div>
@@ -84,6 +82,7 @@ tr{
 
                 </tbody>
             </table>
+            <span>Created: </span>
         </div>
     </div>
 </body>

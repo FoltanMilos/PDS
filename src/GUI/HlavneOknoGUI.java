@@ -357,23 +357,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
     
     private String parseXMLToPDF(String xml){
-        xml = "<?xml version=\"1.0\"?>\n" +
-            "<ROWSET>\n" +
-            " <ROW>\n" +
-            "  <ROK>2018</ROK>\n" +
-            "  <ID_KONTROLY>1</ID_KONTROLY>\n" +
-            "  <ZACIATOK_KONTROLY>12-14 12:18:20</ZACIATOK_KONTROLY>\n" +
-            "  <KONIEC_KONTROLY>12-14 12:18:20</KONIEC_KONTROLY>\n" +
-            "  <TYP_KONTROLY>Technicka kontrola - osobne</TYP_KONTROLY>\n" +
-            " </ROW>\n" +
-            " <ROW>\n" +
-            "  <ROK>2018</ROK>\n" +
-            "  <ID_KONTROLY>2</ID_KONTROLY>\n" +
-            "  <ZACIATOK_KONTROLY>12-14 12:18:35</ZACIATOK_KONTROLY>\n" +
-            "  <KONIEC_KONTROLY>12-14 12:18:35</KONIEC_KONTROLY>\n" +
-            "  <TYP_KONTROLY>Technicka kontrola - osobne</TYP_KONTROLY>\n" +
-            " </ROW>\n" +
-            "</ROWSET>\n";
+        
         String result = "";
         try{
         File file = new File("tmp.html");
@@ -383,23 +367,51 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
 	Document doc = dBuilder.parse(is);
         org.jsoup.nodes.Document html = Jsoup.parse(file,"UTF-8","");
         doc.getDocumentElement().normalize();
-        NodeList rows = doc.getElementsByTagName("ROW");
+        Element zamestnanec = (Element) doc.getElementsByTagName("Zamestnanec").item(0);
+        NodeList rows = zamestnanec.getElementsByTagName("Vykon");
+        Elements table = html.select("tbody");
+        org.jsoup.nodes.Element content = table.get(0);
+        org.jsoup.nodes.Element contentRow = html.createElement("tr");
+        org.jsoup.nodes.Element col = html.createElement("td");
+        col.appendText(zamestnanec.getAttribute("Meno"));
+        contentRow.appendChild(col);
+        col = html.createElement("td");
+        col.appendText(zamestnanec.getAttribute("Priezvisko"));
+        contentRow.appendChild(col);
+        col = html.createElement("td");
+        col.appendText(zamestnanec.getAttribute("IdZamestnanca"));
+        contentRow.appendChild(col);
+        col = html.createElement("td");
+        col.appendText(zamestnanec.getAttribute("PopisPozicie"));
+        contentRow.appendChild(col);
+         col = html.createElement("td");
+        col.appendText(zamestnanec.getAttribute("ZamestnanyOD"));
+        contentRow.appendChild(col);
+         col = html.createElement("td");
+        col.appendText(zamestnanec.getAttribute("DatumUkonceniaPomeru"));
+        contentRow.appendChild(col);
+        content.appendChild(contentRow);
+        Element creationDate = (Element)doc.getElementsByTagName("za").item(0);
+        String  creationDateStr = zamestnanec.getAttribute("DatumVytvorenia").substring(0,11);
+        Elements span = html.select("span");
+        org.jsoup.nodes.Element creationDateHTML = span.get(0);
+        creationDateHTML.appendText(creationDateStr);
+        content = table.get(1);
         for(int i = 0 ; i < rows.getLength(); i++){
             String[] data = new String[5];
                Node row = rows.item(i);
                if(row.getNodeType() == Node.ELEMENT_NODE){
                    Element el = (Element) row;
-                   data[0] = el.getElementsByTagName("ROK").item(0).getTextContent();
-                   data[1] = el.getElementsByTagName("ID_KONTROLY").item(0).getTextContent();
-                   data[2] = el.getElementsByTagName("ZACIATOK_KONTROLY").item(0).getTextContent();
-                   data[3] = el.getElementsByTagName("KONIEC_KONTROLY").item(0).getTextContent();
-                   data[4] = el.getElementsByTagName("TYP_KONTROLY").item(0).getTextContent();
+                    data[0] = el.getElementsByTagName("Rok").item(0).getTextContent();
+                   data[1] = el.getAttribute("IdKontroly");
+                   data[2] = el.getElementsByTagName("ZaciatokKontroly").item(0).getTextContent();
+                   data[3] = el.getElementsByTagName("KoniecKontroly").item(0).getTextContent();
+                   data[4] = el.getElementsByTagName("TypKontroly").item(0).getTextContent();
                }
-            Elements table = html.select("tbody");
-            org.jsoup.nodes.Element content = table.get(1);
-            org.jsoup.nodes.Element contentRow = html.createElement("tr");
+  
+            contentRow = html.createElement("tr");
             for(String item : data){
-                org.jsoup.nodes.Element col = html.createElement("td");
+                col = html.createElement("td");
                 col.appendText(item);
                 contentRow.appendChild(col);
             }
@@ -444,6 +456,43 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             double[] yData = new double[] { 56,25,32,38,21 };
             double[] xData = new double[] { 1998, 2003, 2008,2013,2018 };
             
+            
+            
+            String xml = this.parseXMLToPDF(this.jadro.getDbManipulation().reportVytazeniaZam(ss[3].trim()));
+            org.jsoup.nodes.Document html = Jsoup.parse(xml);
+            Elements table = html.select("td");
+            String beginYearStr = table.get(4).html();
+            String endYearStr= "0";
+            try{
+                endYearStr = table.get(6).html();
+            }catch(Exception e){
+                endYearStr = "0";
+            }
+            String CreationYearStr = html.select("span").get(0).html();
+            
+            int beginYear = Integer.parseInt(beginYearStr.substring(0, 4));
+
+        int endYear;
+            if(endYearStr == "0"){
+                endYear = Integer.parseInt(CreationYearStr.substring(CreationYearStr.length()-11, CreationYearStr.length()-15));
+            }else{
+                endYear = Integer.parseInt(endYearStr.substring(0, 4));
+            }
+            xData = new double[endYear-beginYear + 1];
+            yData = new double[endYear-beginYear + 1];
+            for(int i = beginYear ; i < endYear + 1 ; i++){
+                xData[i - beginYear] = i;
+            }
+            Elements tableRows = html.select("tbody").get(1).children().select("tr");
+            for (org.jsoup.nodes.Element i : tableRows){
+                int year = Integer.parseInt(i.children().get(0).html());
+                yData[year - beginYear] ++;
+            }
+            
+            
+            
+            
+            
             //hlavicka tabulky
             XYChart chart = QuickChart.getChart("Vykonnost zamestnanca " + ss[2] + " " + ss[3],
                     "X", "Y", "y(x)", xData, yData);
@@ -465,7 +514,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             });
             t.start();
             this.jEditorPane1.setContentType("text/html");
-            this.jEditorPane1.setText(this.jadro.getDbManipulation().reportVytazeniaZam( ss[3].trim()));
+            this.jEditorPane1.setText(xml);
         }else{
             this.jEditorPane1.setText("Nebol vybraty zamestnanec!");
         }
@@ -664,11 +713,12 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         String clobXML = this.jadro.getDbManipulation().executeProcedure("analyzatrzieb()");
         //Tu sprav to iste co predTym
         
-        
-        //KUBOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-        //JE TO PO ROKOCH
-         double[] yData = new double[] { 56,25,32,38,21 };
+      
+            double[] yData = new double[] { 56,25,32,38,21 };
             double[] xData = new double[] { 1998, 2003, 2008,2013,2018 };
+            
+            
+            
             
             //hlavicka tabulky
             XYChart chart = QuickChart.getChart("Vykonnost zamestnanca ",
