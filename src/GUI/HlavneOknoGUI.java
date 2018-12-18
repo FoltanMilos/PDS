@@ -308,7 +308,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         });
         jMenu5.add(jMenuItem6);
 
-        jMenuItem7.setText("Kontroly");
+        jMenuItem7.setText("Kontroly ");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem7ActionPerformed(evt);
