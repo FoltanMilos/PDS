@@ -9,32 +9,28 @@ package GUI;
 import generatorDat.GeneratorDat;
 //import it.grabz.grabzit.GrabzItClient;
 
+
 import java.io.File;
-import TableModels.TableModelVehicles;
 import java.awt.Color;
 import java.io.BufferedReader;
-import java.io.FileInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.Vector;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import org.knowm.xchart.XYChart;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
 import org.knowm.xchart.PieChart;
@@ -46,6 +42,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 import semestralka1.Jadro;
 import semestralka1.Osoba;
 /**
@@ -719,37 +716,74 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem13ActionPerformed
 
     private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
-        //analyza tryieb ya cele obdobie
-        String clobXML = this.jadro.getDbManipulation().executeProcedure("analyzatrzieb()");
-        //Tu sprav to iste co predTym
-        
-      
-            double[] yData = new double[] { 56,25,32,38,21 };
-            double[] xData = new double[] { 1998, 2003, 2008,2013,2018 };
+        try {
+            //analyza tryieb ya cele obdobie
+            String clobXML = this.jadro.getDbManipulation().executeProcedure("analyzatrzieb()");
             
             
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            StringBuilder xmlStringBuilder = new StringBuilder();
+            xmlStringBuilder.append(clobXML);
+            ByteArrayInputStream input = new ByteArrayInputStream(
+               xmlStringBuilder.toString().getBytes("UTF-8"));
+            Document doc = dBuilder.parse(input);
             
+                   
+            doc.getDocumentElement().normalize();
+            System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+            Element zamestnanec = (Element) doc.getElementsByTagName("ROWSET").item(0);
+            NodeList rows = zamestnanec.getElementsByTagName("ROW");
+            
+            //TABLE DATA
+            double[] yData = new double[19];
+            double[] xData = new double[19];
+            
+            
+            for(int i = 0 ; i < rows.getLength(); i++){
+            String[] data = new String[2];
+               Node row = rows.item(i);
+               if(row.getNodeType() == Node.ELEMENT_NODE){
+                   Element el = (Element) row;
+                   data[0] = el.getElementsByTagName("SUMA").item(0).getTextContent();
+                   data[1] = el.getElementsByTagName("ROK").item(0).getTextContent();
+                   
+                   //to tbl
+                   int poz = Integer.parseInt(data[1]) - 2000;
+                   xData[poz] = Double.parseDouble(data[1].trim());
+                   yData[poz] = Double.parseDouble(data[0].trim());
+                }
+            }
+            //doplnenie prazdnych rokov
+            for (int i = 0; i <  xData.length ;i++) {
+                if(xData[i] == 0.0){
+                    xData[i] = 2000 + i;
+                }
+           }
             
             //hlavicka tabulky
-            XYChart chart = QuickChart.getChart("Vykonnost zamestnanca ",
-                    "X", "Y", "y(x)", xData, yData);
-
-            
-
-            
-            
+            XYChart chart = QuickChart.getChart("Trzby za cele obdobie",
+                    "Roky", "Trzby v eur", "Eur", xData, yData);
+            //spustenie grafu
             Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
+                @Override
+                public void run() {
+                    
+                    SwingWrapper swingWrapper = new SwingWrapper(chart); //.displayChart();
+                    JFrame displayChart = swingWrapper.displayChart();
+                    displayChart.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    
+                }
                 
-                SwingWrapper swingWrapper = new SwingWrapper(chart); //.displayChart();
-                JFrame displayChart = swingWrapper.displayChart();
-                displayChart.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                
-            }
-
             });
             t.start();
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(HlavneOknoGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SAXException ex) {
+            Logger.getLogger(HlavneOknoGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(HlavneOknoGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }//GEN-LAST:event_jMenuItem14ActionPerformed
 
