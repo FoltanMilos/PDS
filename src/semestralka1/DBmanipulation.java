@@ -317,7 +317,31 @@ public class DBmanipulation {
         return null;
     }
 
-    
+    public String getZamestnanciRozvrh(String rod_cislo){
+        try {
+            ResultSet rs = null;
+            String sql = "";
+            
+            CallableStatement stmt = conn.prepareCall("{ ? = call zobraz_zamestnancov_rozvrh('"+rod_cislo+"')}");
+            stmt.registerOutParameter(1, Types.CLOB);
+            
+            stmt.execute();
+            
+            Clob clob = stmt.getClob(1);
+            if(clob != null){
+               return this.convertCLOBtoString(clob); 
+            }else{
+                
+               return "Nenasli sa ziadny zamestnanci v danom rozsahu!";
+            }
+            
+        } catch (SQLException ex) {
+            System.err.println("chyba pri vykonani procedury!");
+            System.err.println(ex.toString());
+        }
+        //null ked sa odchyta vynimka
+        return null;
+    }
     
     
 }

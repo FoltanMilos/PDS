@@ -12,25 +12,53 @@ import generatorDat.GeneratorDat;
 
 import java.io.File;
 import java.awt.Color;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Transparency;
+import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.ComponentColorModel;
+import java.awt.image.DataBuffer;
+import java.awt.image.DataBufferByte;
+import java.awt.image.Raster;
+import java.awt.image.WritableRaster;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
 import java.io.FileReader;
 import java.io.IOException;
+
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import java.util.Base64;
+import java.util.Vector;
+
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import org.knowm.xchart.XYChart;
 import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import org.apache.commons.io.IOUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
 import org.knowm.xchart.PieChart;
@@ -1005,16 +1033,58 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
                             possibilities,
                             "osobne");
         String[] param = s.split("-");
-        String ret = "";
+        
         if(s != null){
-            //nepresli STK
-            ResultSet executeQuery = this.jadro.getDbManipulation().executeQuery("select id_protokolu,stav_vozidla,fotka from s_protokol"
-                    + " join s_stav_vozidla using(id_stavu) where id_stavu =" + param[0] + "");
+            String result = "";
+            try {
+                //nepresli STK
+                ResultSet executeQuery = this.jadro.getDbManipulation().executeQuery("select id_protokolu,stav_vozidla,fotka from s_protokol"
+                        + " join s_stav_vozidla using(id_stavu) where id_stavu =" + param[0].trim() + "");
+                
+                org.jsoup.nodes.Document html = Jsoup.parse(new File("nepresli-template.html"),"UTF-8","");
+                org.jsoup.nodes.Element tbody = html.select("tbody").get(0);
+                int count = 0;
+                while(executeQuery.next()){
+                    org.jsoup.nodes.Element row = html.createElement("tr");
+                    org.jsoup.nodes.Element col = html.createElement("td");
+                    col.appendText(executeQuery.getString("id_protokolu"));
+                    row.appendChild(col);
+                    col = html.createElement("td");
+                    col.appendText(executeQuery.getString("stav_vozidla"));
+                    row.appendChild(col);
+                    col = html.createElement("td");
+                    org.jsoup.nodes.Element img = html.createElement("img");
+                     // tu sa parsuje img napis to sem
+                    java.sql.Blob blob = executeQuery.getBlob("fotka");  
+                    InputStream in = blob.getBinaryStream();
+                    ByteArrayOutputStream out = new ByteArrayOutputStream();
+                    int len = (int) blob.length();
+                    int bufferSize = 1024;
+                    byte[] buffer = new byte[bufferSize];
+                    // 
+                    while ((len = in.read(buffer)) != -1) {
+                        
+                        out.write(buffer, 0, len);
+                    }
+                    OutputStream outputStream = new FileOutputStream ("image"+count + ".jpg");
+                    out.writeTo(outputStream);
+                    String imgDataBase64 = new String(Base64.getEncoder().encode(out.toByteArray()));
+                    
+                    //tu sa to konci
+                    
+                    img = img.attr("src", "data:image/gif;base64," +imgDataBase64);
+                    System.out.println(img);
+                    col.appendChild(img);
+                    row.appendChild(col);
+                    tbody.appendChild(row);
+                    result = html.html();
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(HlavneOknoGUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
-            
-            
-            
-            
+            this.jEditorPane1.setContentType("text/html");
+            this.jEditorPane1.setText(result);
             
             
             
@@ -1045,7 +1115,113 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
          String s = this.okno2(this.jadro.getDbManipulation().getZamestnanciNaVyber(),"Zamestnanci");
         if ((s != null) && (s.length() > 0)) {
             String[] ss = s.split("\\-");
+            
+            String xml = this.jadro.getDbManipulation().getZamestnanciRozvrh(ss[3].trim());
+            System.out.println(xml);
+            try{
+                DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+                InputSource is = new InputSource(new StringReader(xml));
+                Document doc = dBuilder.parse(is);
+                Element zamest = (Element) doc.getElementsByTagName("Zamestnanec").item(0);
+                File file = new File("rozvrh-template.html");
+                org.jsoup.nodes.Document html = Jsoup.parse(file,"UTF-8","");
+                org.jsoup.nodes.Element zamTableBody = html.select("tbody").get(0);
+                org.jsoup.nodes.Element row = html.createElement("tr");
+                org.jsoup.nodes.Element col = html.createElement("td");
+                col.appendText(zamest.getAttribute("Meno"));
+                row.appendChild(col);
+                col = html.createElement("td");
+                col.appendText(zamest.getAttribute("Priezvisko"));
+                row.appendChild(col);
+                col = html.createElement("td");
+                col.appendText(zamest.getAttribute("IdZamestnanca"));
+                row.appendChild(col);
+                col = html.createElement("td");
+                col.appendText(zamest.getAttribute("ZamestnanyOD"));
+                row.appendChild(col);
+                col = html.createElement("td");
+                String text = "-";
+                try{
+                    text = zamest.getAttribute("ZamestnanyDO");
+                }catch(NullPointerException e){
+                }
+                col.appendText(text);
+                row.appendChild(col);
+                zamTableBody.appendChild(row);
+                zamTableBody = html.select("tbody").get(1);
+                NodeList vykony = doc.getElementsByTagName("Den");
+                int lastHour = -1;
+                int lastMin = -1;
+                String lastDay = "";
+                for(int i = 0 ; i < vykony.getLength(); i++){
+                    Element task = (Element) vykony.item(i);
+                    String today = task.getTextContent();
+                    if(today == lastDay){
+                        Element tmp = (Element) task.getElementsByTagName("vykon").item(0);
+                        int Hour = Integer.parseInt(tmp.getAttribute("ZaciatokKontroly").split(" ")[1].split(":")[0]);
+                        int Min = Integer.parseInt(tmp.getAttribute("ZaciatokKontroly").split(" ")[1].split(":")[1]);
+                        if(lastHour == -1){
+                            lastHour = 8;
+                            lastMin = 0;
+                        }
+                        while(Hour != lastHour && Min != lastMin){
+                            org.jsoup.nodes.Element task_row = html.createElement("tr");
+                            org.jsoup.nodes.Element task_col = html.createElement("td");
+                            if(lastMin == 0){
+                                if(lastMin<10){
+                                    task_col.appendText("0"+lastHour+":"+lastMin+"0");
+                                }else{
+                                    task_col.appendText(lastHour+":"+lastMin+"0");
+                                }
+                            }else{
+                                 if(lastMin<10){
+                                    task_col.appendText("0"+lastHour+":"+lastMin);
+                                }else{
+                                    task_col.appendText(lastHour+":"+lastMin);
+                                }
+                            }
+                            task_row.appendChild(task_col);
+                            task_col = html.createElement("td");
+                            lastMin += 30;
+                            if(lastMin == 60){
+                                lastMin =0;
+                                lastHour++;
+                            }
+                            if(lastMin == 0){
+                                if(lastMin<10){
+                                    task_col.appendText("0"+lastHour+":"+lastMin+"0");
+                                }else{
+                                    task_col.appendText(lastHour+":"+lastMin+"0");
+                                }
+                            }else{
+                                 if(lastMin<10){
+                                    task_col.appendText("0"+lastHour+":"+lastMin);
+                                }else{
+                                    task_col.appendText(lastHour+":"+lastMin);
+                                }
+                            }
+                            task_row.appendChild(task_col);
+                            task_col = html.createElement("td");
+                            task_col.appendText("Free block");
+                            task_row.appendChild(task_col);
+                            
+                            if(lastHour == 17){
+                                lastHour = -1;
+                                lastMin = -1;
+                                break;
+                            }
+                        }
+                    }else{
+                         Element tmp = (Element) task.getElementsByTagName("vykon").item(0);
+                    }
+                }
+            }catch(Exception e){
+                System.err.println(e.getMessage());
+            }
         }
+        
+       
         
         
     }//GEN-LAST:event_jMenuItem20ActionPerformed
