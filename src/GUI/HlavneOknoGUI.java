@@ -1295,6 +1295,9 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             XYChart chart = QuickChart.getChart("Počet vozidiel, ktoré nesplnili kritériá kontroly",
                     "Roky", "Percentá vozidiel (neprešli) %", "neprešli v %", xData, yData);
             //spustenie grafu
+            chart.getStyler().setYAxisMax(100.0);
+            
+            
             Thread t = new Thread(new Runnable() {
                 @Override
                 public void run() {
