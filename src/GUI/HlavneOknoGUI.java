@@ -95,6 +95,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         jMenuItem14 = new javax.swing.JMenuItem();
         jMenuItem15 = new javax.swing.JMenuItem();
         jMenuItem16 = new javax.swing.JMenuItem();
+        jMenuItem18 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem17 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
@@ -211,6 +212,14 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             }
         });
         jMenu3.add(jMenuItem16);
+
+        jMenuItem18.setText("Analýza protokolov (neprešli STK)");
+        jMenuItem18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem18ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem18);
 
         jMenuBar1.add(jMenu3);
 
@@ -836,19 +845,21 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem16ActionPerformed
 
     private void jMenu4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu4ActionPerformed
-       
-       
+      
+        
     }//GEN-LAST:event_jMenu4ActionPerformed
 
     private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
         //zobrazenie idexov
-        ResultSet executeQuery = this.jadro.getDbManipulation().executeQuery("select * from ALL_INDEXES");
+        ResultSet executeQuery = this.jadro.getDbManipulation().executeQuery("select index_name,index_type,"
+                + "table_name from user_indexes where table_name like 'S\\_%' escape '\\'");
          this.jEditorPane1.setContentType("text");
          
          String ret = "";
         try {
             while(executeQuery.next()){
-                ret += executeQuery.getString("constraint_name") + "\n";
+                ret += executeQuery.getString("index_name") + " - " + executeQuery.getString("index_type") 
+                        + " On table: " + executeQuery.getString("table_name")+ "\n";
             }
         } catch (SQLException ex) {
             Logger.getLogger(HlavneOknoGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -861,6 +872,33 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
            
          
     }//GEN-LAST:event_jMenuItem17ActionPerformed
+
+    private void jMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem18ActionPerformed
+        //prtokoly ktor eneprisli stk
+        Object[] possibilities = {"2-Nesposobile na prevadzku","3-Docasne sposobile na prevadzku","5-Komponent nevyhovuje","7-Bezna kont. nevyhovuje"};
+        String s = (String)JOptionPane.showInputDialog(
+                            this,
+                            "Vyberte typ vozidiel ",
+                            "Customized Dialog",
+                            JOptionPane.PLAIN_MESSAGE,
+                            null,
+                            possibilities,
+                            "osobne");
+
+        String ret = "";
+        if(s != null){
+            //nepresli STK
+            ResultSet executeQuery = this.jadro.getDbManipulation().executeQuery("select fotka from s_protokol");
+            
+            
+            
+            
+            
+            
+            
+            
+        }
+    }//GEN-LAST:event_jMenuItem18ActionPerformed
 
     
 
@@ -933,6 +971,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem15;
     private javax.swing.JMenuItem jMenuItem16;
     private javax.swing.JMenuItem jMenuItem17;
+    private javax.swing.JMenuItem jMenuItem18;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
