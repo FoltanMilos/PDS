@@ -96,6 +96,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         jMenuItem18 = new javax.swing.JMenuItem();
         jMenuItem19 = new javax.swing.JMenuItem();
         jMenuItem21 = new javax.swing.JMenuItem();
+        jMenuItem22 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem17 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
@@ -244,6 +245,14 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             }
         });
         jMenu3.add(jMenuItem21);
+
+        jMenuItem22.setText("Analýza kontrol v roku (mesačne)");
+        jMenuItem22.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem22ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem22);
 
         jMenuBar1.add(jMenu3);
 
@@ -1119,6 +1128,114 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jMenuItem21ActionPerformed
 
+    private void jMenuItem22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem22ActionPerformed
+        //analyza
+        Object[] possibilities = {2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018};
+        int s = (int)JOptionPane.showInputDialog(
+                            this,
+                            "Vyberte typ vozidiel ",
+                            "Customized Dialog",
+                            JOptionPane.PLAIN_MESSAGE,
+                            null,
+                            possibilities,
+                            "osobne");
+
+        //If a string was returned, say so.
+        //if ((s != null) && (s.length() > 0)) {
+        //    String[] ss = s.split("\\ ");
+        //if(s != null){
+            
+        
+        
+        
+        
+        
+         ResultSet executeQuery = this.jadro.getDbManipulation().executeQuery("select\n" +
+"    nvl(sum(case when to_char(datum_kontroly,'MM') = 12  then cena_kontroly end),0) as december,\n" +
+"     nvl(sum(case when to_char(datum_kontroly,'MM') = 11  then cena_kontroly end),0) as november,\n" +
+"      nvl(sum(case when to_char(datum_kontroly,'MM') = 10  then cena_kontroly end),0) as oktober,\n" +
+"       nvl(sum(case when to_char(datum_kontroly,'MM') = 9  then cena_kontroly end),0) as september,\n" +
+"        nvl(sum(case when to_char(datum_kontroly,'MM') = 8  then cena_kontroly end),0) as august,\n" +
+"     nvl(sum(case when to_char(datum_kontroly,'MM') = 7  then cena_kontroly end),0) as jul,\n" +
+"      nvl(sum(case when to_char(datum_kontroly,'MM') = 6  then cena_kontroly end),0) as jun,\n" +
+"       nvl(sum(case when to_char(datum_kontroly,'MM') = 5  then cena_kontroly end),0) as maj,\n" +
+"        nvl(sum(case when to_char(datum_kontroly,'MM') = 4  then cena_kontroly end),0) as april,\n" +
+"     nvl(sum(case when to_char(datum_kontroly,'MM') = 3  then cena_kontroly end),0) as marec,\n" +
+"      nvl(sum(case when to_char(datum_kontroly,'MM') = 2  then cena_kontroly end),0) as februar,\n" +
+"       nvl(sum(case when to_char(datum_kontroly,'MM') = 1  then cena_kontroly end),0) as januar\n" +
+"from \n" +
+"    s_kontrola\n" +
+"where \n" +
+"    to_char(datum_kontroly,'YYYY') = " + s );
+        
+        
+        
+            //ESTE PIE CHART
+         PieChart chart = new PieChartBuilder().width(800).height(600).title(getClass().getSimpleName()).build();
+
+         // Customize Chart
+         Color[] sliceColors = new Color[] { new Color(224, 68, 14), new Color(230, 105, 62),
+             new Color(236, 143, 110), new Color(243, 180, 159), new Color(246, 199, 182),
+         new Color(209, 77, 14), new Color(218, 120, 62),new Color(200, 179, 110),
+         new Color(188, 59, 182),
+         new Color(180, 89, 14), new Color(160, 99, 62),new Color(150, 152, 110)};
+         
+         chart.getStyler().setSeriesColors(sliceColors);
+         
+         chart.setTitle("Tržby po mesiacoch za rok " +s);
+
+        try {
+            executeQuery.next();
+            chart.addSeries("januar ( " + 
+                    Integer.parseInt(executeQuery.getString("januar")) + " EUR)", Integer.parseInt(executeQuery.getString("januar")));
+            chart.addSeries("februar ( "+
+                    Integer.parseInt(executeQuery.getString("februar"))  + " EUR)", Integer.parseInt(executeQuery.getString("februar")));
+            chart.addSeries("marec ( "+
+                    Integer.parseInt(executeQuery.getString("marec"))+ " EUR)", Integer.parseInt(executeQuery.getString("marec")));
+            chart.addSeries("april ( "+
+                    Integer.parseInt(executeQuery.getString("april")) + " EUR)", Integer.parseInt(executeQuery.getString("april")));
+            chart.addSeries("maj ( "+
+                    Integer.parseInt(executeQuery.getString("maj"))+ " EUR)", Integer.parseInt(executeQuery.getString("maj")));
+            chart.addSeries("jun ( "+
+                    Integer.parseInt(executeQuery.getString("jun"))+ " EUR)", Integer.parseInt(executeQuery.getString("jun")));
+            chart.addSeries("jul ( "+
+                    Integer.parseInt(executeQuery.getString("jul"))+ " EUR)", Integer.parseInt(executeQuery.getString("jul")));
+            chart.addSeries("august ( "+
+                    Integer.parseInt(executeQuery.getString("august"))+ " EUR)", Integer.parseInt(executeQuery.getString("august")));
+            chart.addSeries("september ( "+
+                    Integer.parseInt(executeQuery.getString("september"))+ " EUR)", Integer.parseInt(executeQuery.getString("september")));
+            chart.addSeries("oktober ( "+
+                    Integer.parseInt(executeQuery.getString("oktober"))+ " EUR)", Integer.parseInt(executeQuery.getString("oktober")));
+            chart.addSeries("november ( "+
+                    Integer.parseInt(executeQuery.getString("november"))+ " EUR)", Integer.parseInt(executeQuery.getString("november")));
+            chart.addSeries("december ( "+
+                    Integer.parseInt(executeQuery.getString("december"))+ " EUR)", Integer.parseInt(executeQuery.getString("december")));
+        } catch (SQLException ex) {
+            Logger.getLogger(HlavneOknoGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+
+         Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() { 
+               // pieChart pie = new pieChart();
+                
+              SwingWrapper swingWrapper = new SwingWrapper(chart); //.displayChart();
+               JFrame displayChart = swingWrapper.displayChart();
+                displayChart.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                
+            }
+
+            });
+            t.start();
+        
+       // }else{
+       //     this.jEditorPane1.setContentType("text");
+       //     this.jEditorPane1.setText("Nevybraty rok");
+      //  }
+        
+    }//GEN-LAST:event_jMenuItem22ActionPerformed
+
     
 
     
@@ -1195,6 +1312,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem20;
     private javax.swing.JMenuItem jMenuItem21;
+    private javax.swing.JMenuItem jMenuItem22;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
