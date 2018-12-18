@@ -1073,7 +1073,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
                     //tu sa to konci
                     
                     img = img.attr("src", "data:image/gif;base64," +imgDataBase64);
-                    System.out.println(img);
+                    //System.out.println(img);
                     col.appendChild(img);
                     row.appendChild(col);
                     tbody.appendChild(row);
