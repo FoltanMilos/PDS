@@ -97,6 +97,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         jMenuItem19 = new javax.swing.JMenuItem();
         jMenuItem21 = new javax.swing.JMenuItem();
         jMenuItem22 = new javax.swing.JMenuItem();
+        jMenuItem23 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem17 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
@@ -253,6 +254,14 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             }
         });
         jMenu3.add(jMenuItem22);
+
+        jMenuItem23.setText("Štatistika vozidiel čo neprešli");
+        jMenuItem23.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem23ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem23);
 
         jMenuBar1.add(jMenu3);
 
@@ -1239,6 +1248,76 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jMenuItem22ActionPerformed
 
+    private void jMenuItem23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem23ActionPerformed
+        try {
+            //statistika vozidiel co nepresli
+            String clobXML = this.jadro.getDbManipulation().executeProcedure("statistika()");
+            
+            //TABLE DATA
+            double[] yData = new double[19];
+            double[] xData = new double[19];
+            
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            StringBuilder xmlStringBuilder = new StringBuilder();
+            xmlStringBuilder.append(clobXML);
+            ByteArrayInputStream input = new ByteArrayInputStream(
+                    xmlStringBuilder.toString().getBytes("UTF-8"));
+            Document doc = dBuilder.parse(input);
+            
+                   
+            doc.getDocumentElement().normalize();
+            System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+            Element zamestnanec = (Element) doc.getElementsByTagName("ROWSET").item(0);
+            NodeList rows = zamestnanec.getElementsByTagName("ROW");
+            
+            
+            //roky
+            for (int i = 0; i < xData.length; i++) {
+                xData[i] = 2000 +i;
+            }
+            
+            //
+            for(int i = 0 ; i < rows.getLength(); i++){
+                String[] data = new String[1];
+                Node row = rows.item(i);
+                if(row.getNodeType() == Node.ELEMENT_NODE){
+                    Element el = (Element) row;
+                    double d = Double.parseDouble(el.getElementsByTagName("POCET").item(0).getTextContent().replace(',', '.'));
+                    
+                    //to tbl
+                   
+                    yData[i] = d;
+                }
+            }
+            
+            //hlavicka tabulky
+            XYChart chart = QuickChart.getChart("Počet vozidiel, ktoré nesplnili kritériá kontroly",
+                    "Roky", "Percentá vozidiel (neprešli) %", "neprešli v %", xData, yData);
+            //spustenie grafu
+            Thread t = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    
+                    SwingWrapper swingWrapper = new SwingWrapper(chart); //.displayChart();
+                    JFrame displayChart = swingWrapper.displayChart();
+                    displayChart.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    
+                }
+                
+            });
+            t.start();
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(HlavneOknoGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SAXException ex) {
+            Logger.getLogger(HlavneOknoGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(HlavneOknoGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        
+        
+    }//GEN-LAST:event_jMenuItem23ActionPerformed
+
     
 
     
@@ -1316,6 +1395,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem20;
     private javax.swing.JMenuItem jMenuItem21;
     private javax.swing.JMenuItem jMenuItem22;
+    private javax.swing.JMenuItem jMenuItem23;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
