@@ -79,7 +79,7 @@ public class DBmanipulation {
         try {
             while(rs.next()){
                 list.add(rs.getString("Id") + "-" + rs.getString("vlastnik_rc") + "-" + rs.getString("znacka") + "-" +
-                        rs.getString("cena")  + "-" + rs.getString("rok_vyroby"));
+                        rs.getString("cena"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(DBmanipulation.class.getName()).log(Level.SEVERE, null, ex);

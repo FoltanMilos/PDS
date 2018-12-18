@@ -104,7 +104,6 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
-        jMenuItem7 = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenuItem9 = new javax.swing.JMenuItem();
@@ -300,21 +299,13 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         });
         jMenu5.add(jMenuItem5);
 
-        jMenuItem6.setText("Poruchy auta");
+        jMenuItem6.setText("Kontroly auta");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem6ActionPerformed(evt);
             }
         });
         jMenu5.add(jMenuItem6);
-
-        jMenuItem7.setText("Kontroly ");
-        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem7ActionPerformed(evt);
-            }
-        });
-        jMenu5.add(jMenuItem7);
 
         jMenuBar1.add(jMenu5);
 
@@ -630,42 +621,6 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jMenuItem6ActionPerformed
-
-    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-         String xml =  "";
-        
-        BufferedReader in = null;
-        try {
-            in = new BufferedReader(new FileReader("output.html"));
-            
-            String lane = "";
-            while((lane = in.readLine()) != null){
-                xml += lane;
-            }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(HlavneOknoGUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(HlavneOknoGUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        xml =  this.parseXMLToPDF("");
-        
-        
-                 
-                 
-        this.jEditorPane1.setContentType("text/html");
-         this.jEditorPane1.setText(xml);
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-    }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
 
@@ -1404,7 +1359,6 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JScrollPane jScrollPane2;
