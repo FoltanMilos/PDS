@@ -427,7 +427,9 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         result = html.html();
         }catch(Exception e){
             System.out.println("error happened: No data to display");
-             System.err.println(e.getMessage());
+            this.jEditorPane1.setContentType("text");
+            this.jEditorPane1.setText("error happened: No data to display");
+            //System.err.println(e.getMessage());
         }
         
         return result;
