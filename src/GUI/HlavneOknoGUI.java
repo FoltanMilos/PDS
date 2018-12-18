@@ -413,8 +413,8 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
                    Element el = (Element) row;
                     data[0] = el.getElementsByTagName("Rok").item(0).getTextContent();
                    data[1] = el.getAttribute("IdKontroly");
-                   data[2] = el.getElementsByTagName("ZaciatokKontroly").item(0).getTextContent();
-                   data[3] = el.getElementsByTagName("KoniecKontroly").item(0).getTextContent();
+                   data[2] = el.getElementsByTagName("ZaciatokKontroly").item(0).getTextContent().split(" ")[1];
+                   data[3] = el.getElementsByTagName("KoniecKontroly").item(0).getTextContent().split(" ")[1];
                    data[4] = el.getElementsByTagName("TypKontroly").item(0).getTextContent();
                }
   
@@ -494,7 +494,8 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             }
             Elements tableRows = html.select("tbody").get(1).children().select("tr");
             for (org.jsoup.nodes.Element i : tableRows){
-                int year = Integer.parseInt(i.children().get(0).html());
+                String [] date = i.children().get(0).html().split("-");
+                int year = Integer.parseInt(date[0]);
                 yData[year - beginYear] ++;
             }
             
