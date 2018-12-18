@@ -85,6 +85,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem20 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
@@ -94,6 +95,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         jMenuItem16 = new javax.swing.JMenuItem();
         jMenuItem18 = new javax.swing.JMenuItem();
         jMenuItem19 = new javax.swing.JMenuItem();
+        jMenuItem21 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem17 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
@@ -158,6 +160,14 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             }
         });
         jMenu2.add(jMenuItem2);
+
+        jMenuItem20.setText("Zobrazenie zamest. rozvrhu");
+        jMenuItem20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem20ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem20);
 
         jMenuBar1.add(jMenu2);
 
@@ -226,6 +236,14 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             }
         });
         jMenu3.add(jMenuItem19);
+
+        jMenuItem21.setText("Tržby podľa typu kontroly");
+        jMenuItem21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem21ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem21);
 
         jMenuBar1.add(jMenu3);
 
@@ -1027,6 +1045,72 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem19ActionPerformed
 
+    private void jMenuItem20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem20ActionPerformed
+        //zobrazenie zam rozvrhu
+        
+        
+        
+    }//GEN-LAST:event_jMenuItem20ActionPerformed
+
+    private void jMenuItem21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem21ActionPerformed
+        //trzby podla kontroly
+        ResultSet executeQuery = this.jadro.getDbManipulation().executeQuery("select\n" +
+"    sum(case when id_typu=1 then cena_kontroly end) as tkosobne,\n" +
+"    sum(case when id_typu=2 then cena_kontroly end) as tkautobus,\n" +
+"    sum(case when id_typu=3 then cena_kontroly end) as tkkamion,\n" +
+"    sum(case when id_typu=4 then cena_kontroly end) as emosobne,\n" +
+"    sum(case when id_typu=5 then cena_kontroly end) as emautobus,\n" +
+"    sum(case when id_typu=6 then cena_kontroly end) as emkamion,\n" +
+"    sum(case when id_typu=7 then cena_kontroly end) as pridkomp,\n" +
+"    sum(case when id_typu=8 then cena_kontroly end) as prehlvol\n" +
+" from \n" +
+"    s_kontrola");
+        
+        
+        
+            //ESTE PIE CHART
+         PieChart chart = new PieChartBuilder().width(800).height(600).title(getClass().getSimpleName()).build();
+
+         // Customize Chart
+         Color[] sliceColors = new Color[] { new Color(224, 68, 14), new Color(230, 105, 62),
+             new Color(236, 143, 110), new Color(243, 180, 159), new Color(246, 199, 182),
+         new Color(209, 77, 14), new Color(218, 120, 62),new Color(200, 179, 110)};
+         chart.getStyler().setSeriesColors(sliceColors);
+         
+         chart.setTitle("Trzby podla typov");
+
+        try {
+            executeQuery.next();
+            chart.addSeries("Technicka kontrola - osobne", Integer.parseInt(executeQuery.getString("tkosobne")));
+            chart.addSeries("Technicka kontrola - autobus", Integer.parseInt(executeQuery.getString("tkautobus")));
+            chart.addSeries("Technicka kontrola - kamion", Integer.parseInt(executeQuery.getString("tkkamion")));
+            chart.addSeries("Emisna - osobne", Integer.parseInt(executeQuery.getString("emosobne")));
+            chart.addSeries("Emisna - autobus", Integer.parseInt(executeQuery.getString("emautobus")));
+            chart.addSeries("Emisna - kamion", Integer.parseInt(executeQuery.getString("emkamion")));
+            chart.addSeries("Pridanie komp(volit)", Integer.parseInt(executeQuery.getString("pridkomp")));
+            chart.addSeries("Prehliadka(volit)", Integer.parseInt(executeQuery.getString("prehlvol")));
+        } catch (SQLException ex) {
+            Logger.getLogger(HlavneOknoGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+
+         Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() { 
+               // pieChart pie = new pieChart();
+                
+              SwingWrapper swingWrapper = new SwingWrapper(chart); //.displayChart();
+               JFrame displayChart = swingWrapper.displayChart();
+                displayChart.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                
+            }
+
+            });
+            t.start();
+        
+        
+    }//GEN-LAST:event_jMenuItem21ActionPerformed
+
     
 
     
@@ -1101,6 +1185,8 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem18;
     private javax.swing.JMenuItem jMenuItem19;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem20;
+    private javax.swing.JMenuItem jMenuItem21;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
