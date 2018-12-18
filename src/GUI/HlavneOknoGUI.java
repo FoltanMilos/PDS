@@ -888,7 +888,8 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         String ret = "";
         if(s != null){
             //nepresli STK
-            ResultSet executeQuery = this.jadro.getDbManipulation().executeQuery("select fotka from s_protokol");
+            ResultSet executeQuery = this.jadro.getDbManipulation().executeQuery("select id_protkolu,stav,fotka from s_protokol"
+                    + " join s_stav_vozidla using(id_stavu)");
             
             
             
