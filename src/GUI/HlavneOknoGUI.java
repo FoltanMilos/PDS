@@ -246,7 +246,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem21);
 
-        jMenuItem22.setText("Analýza kontrol v roku (mesačne)");
+        jMenuItem22.setText("Analýza tržieb kontrol v roku (mesačne)");
         jMenuItem22.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem22ActionPerformed(evt);

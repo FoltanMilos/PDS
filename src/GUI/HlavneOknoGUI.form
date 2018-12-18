@@ -136,7 +136,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem22">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Anal&#xfd;za kontrol v roku (mesa&#x10d;ne)"/>
+                <Property name="text" type="java.lang.String" value="Anal&#xfd;za tr&#x17e;ieb kontrol v roku (mesa&#x10d;ne)"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem22ActionPerformed"/>
