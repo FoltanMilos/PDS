@@ -1114,10 +1114,34 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
     private void jMenuItem20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem20ActionPerformed
         //zobrazenie zam rozvrhu
          String s = this.okno2(this.jadro.getDbManipulation().getZamestnanciNaVyber(),"Zamestnanci");
+         
         if ((s != null) && (s.length() > 0)) {
             String[] ss = s.split("\\-");
-            
+            String result = "";
             String xml = this.jadro.getDbManipulation().getZamestnanciRozvrh(ss[3].trim());
+            xml = "<?xml version=\"1.0\"?>\n" +
+"<Zamestnanec DatumVytvorenia=\"2018-12-19 00:06:27\" IdZamestnanca=\"810\" ZamestnanyOD=\"2000-05-31\" Meno=\"Kvetoslava\" Priezvisko=\"Maier\" PopisPozicie=\"Technik\">\n" +
+"  <Den>2018-12-17<VYKON>\n" +
+"      <vykon ZaciatokKontroly=\"2018-12-17 11:00:00\" KoniecKontroly=\"2018-12-17 12:00:00\" TypKontroly=\"Technicka kontrola - osobne\"/>\n" +
+"    </VYKON>\n" +
+"  </Den>\n" +
+"  <Den>2018-12-17<VYKON>\n" +
+"      <vykon ZaciatokKontroly=\"2018-12-17 12:00:00\" KoniecKontroly=\"2018-12-17 13:00:00\" TypKontroly=\"Technicka kontrola - osobne\"/>\n" +
+"    </VYKON>\n" +
+"  </Den>\n" +
+"  <Den>2018-12-18<VYKON>\n" +
+"      <vykon ZaciatokKontroly=\"2018-12-17 09:00:00\" KoniecKontroly=\"2018-12-17 10:00:00\" TypKontroly=\"Technicka kontrola - osobne\"/>\n" +
+"    </VYKON>\n" +
+"  </Den>\n" +
+"  <Den>2018-12-19<VYKON>\n" +
+"      <vykon ZaciatokKontroly=\"2018-12-17 08:00:00\" KoniecKontroly=\"2018-12-17 09:00:00\" TypKontroly=\"Technicka kontrola - osobne\"/>\n" +
+"    </VYKON>\n" +
+"  </Den>\n" +
+"  <Den>2018-12-19<VYKON>\n" +
+"      <vykon ZaciatokKontroly=\"2018-12-17 10:00:00\" KoniecKontroly=\"2018-12-17 11:00:00\" TypKontroly=\"Technicka kontrola - osobne\"/>\n" +
+"    </VYKON>\n" +
+"  </Den>\n" +
+"</Zamestnanec>";
             System.out.println(xml);
             try{
                 DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -1158,7 +1182,11 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
                 for(int i = 0 ; i < vykony.getLength(); i++){
                     Element task = (Element) vykony.item(i);
                     String today = task.getTextContent();
-                    if(today == lastDay){
+            
+                    if(lastDay.equals("")){
+                        lastDay = today;
+                    }
+                    if(today.equals(lastDay)){
                         Element tmp = (Element) task.getElementsByTagName("vykon").item(0);
                         int Hour = Integer.parseInt(tmp.getAttribute("ZaciatokKontroly").split(" ")[1].split(":")[0]);
                         int Min = Integer.parseInt(tmp.getAttribute("ZaciatokKontroly").split(" ")[1].split(":")[1]);
@@ -1166,17 +1194,26 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
                             lastHour = 8;
                             lastMin = 0;
                         }
-                        while(Hour != lastHour && Min != lastMin){
+                        while(true){
+                            if(Hour == lastHour){ 
+                                if(Min ==lastMin){
+                                    break;
+                                }
+                            }
                             org.jsoup.nodes.Element task_row = html.createElement("tr");
                             org.jsoup.nodes.Element task_col = html.createElement("td");
+                
+                            task_col.appendText(today.split("\n")[0]);
+                            task_row.appendChild(task_col);
+                            task_col = html.createElement("td");
                             if(lastMin == 0){
-                                if(lastMin<10){
+                                if(lastHour<10){
                                     task_col.appendText("0"+lastHour+":"+lastMin+"0");
                                 }else{
                                     task_col.appendText(lastHour+":"+lastMin+"0");
                                 }
                             }else{
-                                 if(lastMin<10){
+                                 if(lastHour<10){
                                     task_col.appendText("0"+lastHour+":"+lastMin);
                                 }else{
                                     task_col.appendText(lastHour+":"+lastMin);
@@ -1190,13 +1227,13 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
                                 lastHour++;
                             }
                             if(lastMin == 0){
-                                if(lastMin<10){
+                                if(lastHour<10){
                                     task_col.appendText("0"+lastHour+":"+lastMin+"0");
                                 }else{
                                     task_col.appendText(lastHour+":"+lastMin+"0");
                                 }
                             }else{
-                                 if(lastMin<10){
+                                 if(lastHour<10){
                                     task_col.appendText("0"+lastHour+":"+lastMin);
                                 }else{
                                     task_col.appendText(lastHour+":"+lastMin);
@@ -1206,20 +1243,140 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
                             task_col = html.createElement("td");
                             task_col.appendText("Free block");
                             task_row.appendChild(task_col);
-                            
+                            zamTableBody.appendChild(task_row);
                             if(lastHour == 17){
                                 lastHour = -1;
                                 lastMin = -1;
                                 break;
                             }
+                            
                         }
+                        org.jsoup.nodes.Element task_row = html.createElement("tr");
+                        org.jsoup.nodes.Element task_col = html.createElement("td");
+                        System.out.println(tmp.getAttribute("ZaciatokKontroly"));
+                        task_col.appendText(today.split("\n")[0]);
+                        task_row.appendChild(task_col);
+                        task_col = html.createElement("td");
+                        task_col.appendText(tmp.getAttribute("ZaciatokKontroly").split(" ")[1]);
+                        task_row.appendChild(task_col);
+                        task_col = html.createElement("td");
+                        task_col.appendText(tmp.getAttribute("KoniecKontroly").split(" ")[1]);
+                        task_row.appendChild(task_col);
+                        task_col = html.createElement("td");
+                        task_col.appendText(tmp.getAttribute("TypKontroly"));
+                        task_row.appendChild(task_col);
+                        zamTableBody.appendChild(task_row);
+                        lastHour = Integer.parseInt(tmp.getAttribute("KoniecKontroly").split(" ")[1].split(":")[0]);
+                        lastMin = Integer.parseInt(tmp.getAttribute("KoniecKontroly").split(" ")[1].split(":")[1]);
                     }else{
-                         Element tmp = (Element) task.getElementsByTagName("vykon").item(0);
+                        if(lastHour == -1){
+                            lastHour = 8;
+                            lastMin = 0;
+                        }
+                        do{
+                            org.jsoup.nodes.Element task_row = html.createElement("tr");
+                            org.jsoup.nodes.Element task_col = html.createElement("td");
+                            task_col.appendText(lastDay.split("\n")[0]);
+                            task_row.appendChild(task_col);
+                            task_col = html.createElement("td");
+                             if(lastMin == 0){
+                                if(lastHour<10){
+                                    task_col.appendText("0"+lastHour+":"+lastMin+"0");
+                                }else{
+                                    task_col.appendText(lastHour+":"+lastMin+"0");
+                                }
+                            }else{
+                                 if(lastHour<10){
+                                    task_col.appendText("0"+lastHour+":"+lastMin);
+                                }else{
+                                    task_col.appendText(lastHour+":"+lastMin);
+                                }
+                            }
+                            task_row.appendChild(task_col);
+                            task_col = html.createElement("td");
+                            lastMin += 30;
+                            if(lastMin == 60){
+                                lastMin =0;
+                                lastHour++;
+                            }
+                            if(lastMin == 0){
+                                if(lastHour<10){
+                                    task_col.appendText("0"+lastHour+":"+lastMin+"0");
+                                }else{
+                                    task_col.appendText(lastHour+":"+lastMin+"0");
+                                }
+                            }else{
+                                 if(lastHour<10){
+                                    task_col.appendText("0"+lastHour+":"+lastMin);
+                                }else{
+                                    task_col.appendText(lastHour+":"+lastMin);
+                                }
+                            }
+                            task_row.appendChild(task_col);
+                            task_col = html.createElement("td");
+                            task_col.appendText("Free block");
+                            task_row.appendChild(task_col);
+                            zamTableBody.appendChild(task_row);
+                            
+                        }while(lastHour < 17 );
+                        lastHour = -1;
+                        lastMin = -1;
+                        lastDay= today;
+                        i--;
                     }
                 }
+                do{
+                    org.jsoup.nodes.Element task_row = html.createElement("tr");
+                            org.jsoup.nodes.Element task_col = html.createElement("td");
+                            task_col.appendText(lastDay.split("\n")[0]);
+                            task_row.appendChild(task_col);
+                            task_col = html.createElement("td");
+                             if(lastMin == 0){
+                                if(lastHour<10){
+                                    task_col.appendText("0"+lastHour+":"+lastMin+"0");
+                                }else{
+                                    task_col.appendText(lastHour+":"+lastMin+"0");
+                                }
+                            }else{
+                                 if(lastHour<10){
+                                    task_col.appendText("0"+lastHour+":"+lastMin);
+                                }else{
+                                    task_col.appendText(lastHour+":"+lastMin);
+                                }
+                            }
+                            task_row.appendChild(task_col);
+                            task_col = html.createElement("td");
+                            lastMin += 30;
+                            if(lastMin == 60){
+                                lastMin =0;
+                                lastHour++;
+                            }
+                            if(lastMin == 0){
+                                if(lastHour<10){
+                                    task_col.appendText("0"+lastHour+":"+lastMin+"0");
+                                }else{
+                                    task_col.appendText(lastHour+":"+lastMin+"0");
+                                }
+                            }else{
+                                 if(lastHour<10){
+                                    task_col.appendText("0"+lastHour+":"+lastMin);
+                                }else{
+                                    task_col.appendText(lastHour+":"+lastMin);
+                                }
+                            }
+                            task_row.appendChild(task_col);
+                            task_col = html.createElement("td");
+                            task_col.appendText("Free block");
+                            task_row.appendChild(task_col);
+                            zamTableBody.appendChild(task_row);
+                }while(lastHour < 17 );
+                result = html.html();
             }catch(Exception e){
                 System.err.println(e.getMessage());
             }
+            
+            this.jEditorPane1.setContentType("text/html");
+            this.jEditorPane1.setText(result);
         }
         
        
