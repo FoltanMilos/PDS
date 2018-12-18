@@ -1056,7 +1056,10 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
 
     private void jMenuItem20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem20ActionPerformed
         //zobrazenie zam rozvrhu
-        
+         String s = this.okno2(this.jadro.getDbManipulation().getZamestnanciNaVyber(),"Zamestnanci");
+        if ((s != null) && (s.length() > 0)) {
+            String[] ss = s.split("\\-");
+        }
         
         
     }//GEN-LAST:event_jMenuItem20ActionPerformed
