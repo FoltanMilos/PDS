@@ -934,12 +934,12 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
                             null,
                             possibilities,
                             "osobne");
-
+        String[] param = s.split("-");
         String ret = "";
         if(s != null){
             //nepresli STK
-            ResultSet executeQuery = this.jadro.getDbManipulation().executeQuery("select id_protkolu,stav,fotka from s_protokol"
-                    + " join s_stav_vozidla using(id_stavu)");
+            ResultSet executeQuery = this.jadro.getDbManipulation().executeQuery("select id_protokolu,stav_vozidla,fotka from s_protokol"
+                    + " join s_stav_vozidla using(id_stavu) where id_stavu =" + param[0] + "");
             
             
             
