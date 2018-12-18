@@ -150,7 +150,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
 
         jMenu2.setText("Menu");
 
-        jMenuItem2.setText("Kolacovy");
+        jMenuItem2.setText("Narodeniny zamestnancov");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem2ActionPerformed(evt);
@@ -435,24 +435,34 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         return result;
     }
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        double[] yData = new double[] { 56,25,32,38,21 };
-        double[] xData = new double[] { 1998, 2003, 2008,2013,2018 };
-
-        // Create Chart
-        XYChart chart = QuickChart.getChart("Vykonnost zamestnancov", "X", "Y", "y(x)", xData, yData);
-
-        // Show it
+        //kolko dni chyba do narodenim zamestnancom
+         ResultSet executeQuery = this.jadro.getDbManipulation().executeQuery("select meno, priezvisko,id_zamestnanca as id, popis as pozicia,\n" +
+"case when \n" +
+"    sysdate < to_date(to_char(sysdate,'YYYY') || '-' ||\n" +
+"    MOD(substr(rod_cislo,3,2),50) || '-' || substr(rod_cislo,5,2) ,\n" +
+"    'YYYY-MM-DD')\n" +
+"     then \n" +
+"    ceil(trunc( to_date(to_char(sysdate,'YYYY') || '-' ||\n" +
+"    MOD(substr(rod_cislo,3,2),50) || '-' || substr(rod_cislo,5,2) ,\n" +
+"    'YYYY-MM-DD')-sysdate,3) )\n" +
+"    else\n" +
+"    ceil(trunc(to_date(to_char(sysdate,'YYYY')+1 || '-' ||\n" +
+"    MOD(substr(rod_cislo,3,2),50) || '-' || substr(rod_cislo,5,2) ,\n" +
+"    'YYYY-MM-DD')-sysdate,3))\n" +
+"    end\n" +
+"    as pocet_dni,\n" +
+"substr(rod_cislo,5,2) || '.' || \n" +
+"MOD(substr(rod_cislo,3,2),50) || '.'\n" +
+"as dat_nar\n" +
+"from s_zamestnanec\n" +
+"    join s_os_udaje using(rod_cislo)\n" +
+"        join s_typ_pozicie using(id_typu)");
         
-        Thread t = new Thread(new Runnable() {
-        @Override
-        public void run() {
-           new SwingWrapper(chart).displayChart();
+        try {
+            this.jTable2.setModel(TableModels.UniversalTableModel.buildTableModel(executeQuery));
+        } catch (SQLException ex) {
+            Logger.getLogger(HlavneOknoGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        });
-        t.start();
-        
-        
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
