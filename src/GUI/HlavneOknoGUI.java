@@ -1081,14 +1081,22 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
 
         try {
             executeQuery.next();
-            chart.addSeries("Technicka kontrola - osobne", Integer.parseInt(executeQuery.getString("tkosobne")));
-            chart.addSeries("Technicka kontrola - autobus", Integer.parseInt(executeQuery.getString("tkautobus")));
-            chart.addSeries("Technicka kontrola - kamion", Integer.parseInt(executeQuery.getString("tkkamion")));
-            chart.addSeries("Emisna - osobne", Integer.parseInt(executeQuery.getString("emosobne")));
-            chart.addSeries("Emisna - autobus", Integer.parseInt(executeQuery.getString("emautobus")));
-            chart.addSeries("Emisna - kamion", Integer.parseInt(executeQuery.getString("emkamion")));
-            chart.addSeries("Pridanie komp(volit)", Integer.parseInt(executeQuery.getString("pridkomp")));
-            chart.addSeries("Prehliadka(volit)", Integer.parseInt(executeQuery.getString("prehlvol")));
+            chart.addSeries("Technicka kontrola - osobne ( " + 
+                    Integer.parseInt(executeQuery.getString("tkosobne")) + " EUR)", Integer.parseInt(executeQuery.getString("tkosobne")));
+            chart.addSeries("Technicka kontrola - autobus ( "+
+                    Integer.parseInt(executeQuery.getString("tkautobus"))  + " EUR)", Integer.parseInt(executeQuery.getString("tkautobus")));
+            chart.addSeries("Technicka kontrola - kamion ( "+
+                    Integer.parseInt(executeQuery.getString("tkkamion"))+ " EUR)", Integer.parseInt(executeQuery.getString("tkkamion")));
+            chart.addSeries("Emisna - osobne ( "+
+                    Integer.parseInt(executeQuery.getString("emosobne")) + " EUR)", Integer.parseInt(executeQuery.getString("emosobne")));
+            chart.addSeries("Emisna - autobus ( "+
+                    Integer.parseInt(executeQuery.getString("emautobus"))+ " EUR)", Integer.parseInt(executeQuery.getString("emautobus")));
+            chart.addSeries("Emisna - kamion ( "+
+                    Integer.parseInt(executeQuery.getString("emkamion"))+ " EUR)", Integer.parseInt(executeQuery.getString("emkamion")));
+            chart.addSeries("Pridanie komp(volit) ( "+
+                    Integer.parseInt(executeQuery.getString("pridkomp"))+ " EUR)", Integer.parseInt(executeQuery.getString("pridkomp")));
+            chart.addSeries("Prehliadka(volit) ( "+
+                    Integer.parseInt(executeQuery.getString("prehlvol"))+ " EUR)", Integer.parseInt(executeQuery.getString("prehlvol")));
         } catch (SQLException ex) {
             Logger.getLogger(HlavneOknoGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
