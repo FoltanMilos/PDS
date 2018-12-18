@@ -639,9 +639,10 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        ResultSet executeQuery = this.jadro.getDbManipulation().executeQuery("select id_zamestnanca,meno,priezvisko from (select id_zamestnanca,meno,priezvisko, row_number() over(order by rod_cislo)"
-                + " as rn from s_zamestnanec"
-                + " join s_os_udaje using(rod_cislo)) where rn < 20");
+        //vyuziva danz index
+        ResultSet executeQuery = this.jadro.getDbManipulation().executeQuery("select id_zamestnanca,meno,priezvisko"
+                + "  from s_zamestnanec"
+                + " join s_os_udaje using(rod_cislo)");
         try {
             this.jTable2.setModel(TableModels.UniversalTableModel.buildTableModel(executeQuery));
         } catch (SQLException ex) {
