@@ -909,7 +909,8 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             Logger.getLogger(HlavneOknoGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
             
-
+            
+        chart.setTitle("Analýza poruchovost vozidiel");
          Thread t = new Thread(new Runnable() {
             @Override
             public void run() { 
@@ -995,7 +996,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
     private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
         //zobrazenie idexov
         ResultSet executeQuery = this.jadro.getDbManipulation().executeQuery("select index_name,index_type,"
-                + "table_name from user_indexes where table_name like 'S\\_%' escape '\\'");
+                + "table_name from user_indexes where index_name like 'S\\_%' escape '\\'");
          this.jEditorPane1.setContentType("text");
          
          String ret = "";
