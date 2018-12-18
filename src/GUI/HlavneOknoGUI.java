@@ -456,7 +456,8 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
 "as dat_nar\n" +
 "from s_zamestnanec\n" +
 "    join s_os_udaje using(rod_cislo)\n" +
-"        join s_typ_pozicie using(id_typu)");
+"        join s_typ_pozicie using(id_typu)"
+                 + " where datum_do is null or datum_do > sysdate");
         
         try {
             this.jTable2.setModel(TableModels.UniversalTableModel.buildTableModel(executeQuery));
