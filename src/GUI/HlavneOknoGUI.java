@@ -1136,6 +1136,8 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
             String[] ss = s.split("\\-");
             String result = "";
             String xml = this.jadro.getDbManipulation().getZamestnanciRozvrh(ss[3].trim());
+            
+           /*
             xml = "<?xml version=\"1.0\"?>\n" +
 "<Zamestnanec DatumVytvorenia=\"2018-12-19 00:06:27\" IdZamestnanca=\"810\" ZamestnanyOD=\"2000-05-31\" Meno=\"Kvetoslava\" Priezvisko=\"Maier\" PopisPozicie=\"Technik\">\n" +
 "  <Den>2018-12-17<VYKON>\n" +
@@ -1159,7 +1161,8 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
 "    </VYKON>\n" +
 "  </Den>\n" +
 "</Zamestnanec>";
-            System.out.println(xml);
+           */
+            //System.out.println(xml);
             try{
                 DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
                 DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
