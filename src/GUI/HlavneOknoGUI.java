@@ -12,6 +12,7 @@ import generatorDat.GeneratorDat;
 
 import java.io.File;
 import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Transparency;
@@ -42,16 +43,21 @@ import java.io.OutputStreamWriter;
 
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
+import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import java.util.Base64;
+import java.util.Iterator;
 import java.util.Vector;
 
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageReadParam;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
 import javax.swing.JFrame;
 import org.knowm.xchart.XYChart;
 import javax.swing.JOptionPane;
@@ -1053,30 +1059,41 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
                     col = html.createElement("td");
                     col.appendText(executeQuery.getString("stav_vozidla"));
                     row.appendChild(col);
-                    col = html.createElement("td");
-                    org.jsoup.nodes.Element img = html.createElement("img");
                      // tu sa parsuje img napis to sem
-                    java.sql.Blob blob = executeQuery.getBlob("fotka");  
-                    InputStream in = blob.getBinaryStream();
-                    ByteArrayOutputStream out = new ByteArrayOutputStream();
-                    int len = (int) blob.length();
-                    int bufferSize = 1024;
-                    byte[] buffer = new byte[bufferSize];
-                    // 
-                    while ((len = in.read(buffer)) != -1) {
-                        
-                        out.write(buffer, 0, len);
-                    }
-                    OutputStream outputStream = new FileOutputStream ("image"+count + ".jpg");
-                    out.writeTo(outputStream);
-                    String imgDataBase64 = new String(Base64.getEncoder().encode(out.toByteArray()));
-                    
-                    //tu sa to konci
-                    
-                    img = img.attr("src", "data:image/gif;base64," +imgDataBase64);
-                    //System.out.println(img);
-                    col.appendChild(img);
-                    row.appendChild(col);
+//                    col = html.createElement("td");                 
+//                    org.jsoup.nodes.Element img = html.createElement("img");                   
+//                    Blob imageBInData = executeQuery.getBlob("fotka");
+//                    
+//                    ByteArrayInputStream bis = new ByteArrayInputStream(Base64.getEncoder().encode(imageBInData.getBytes((long)1, (int) imageBInData.length())));
+//                    Iterator<?> readers = ImageIO.getImageReadersByFormatName("PNG");
+// 
+//        //ImageIO is a class containing static methods for locating ImageReaders
+//        //and ImageWriters, and performing simple encoding and decoding. 
+// 
+//                    ImageReader reader = (ImageReader) readers.next();
+//                    Object source = bis; 
+//                    ImageInputStream iis = ImageIO.createImageInputStream(source); 
+//                    reader.setInput(iis, true);
+//                    ImageReadParam imageParam = reader.getDefaultReadParam();
+// 
+//                    Image image = reader.read(0, imageParam);
+//        //got an image file
+// 
+//                BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_RGB);
+//        //bufferedImage is the RenderedImage to be written
+// 
+//                    Graphics2D g2 = bufferedImage.createGraphics();
+//                    g2.drawImage(image, null, null);
+// 
+//                    File imageFile = new File("image"+count+".png");
+//                    ImageIO.write(bufferedImage, "png", imageFile);
+// 
+//        System.out.println(imageFile.getPath());    
+//                    
+//                    //img = img.attr("src", "data:image/gif;base64," +imgDataBase64);
+//                    //System.out.println(img);
+//                   col.appendChild(img);
+//                   row.appendChild(col);
                     tbody.appendChild(row);
                     result = html.html();
                 }
