@@ -635,7 +635,7 @@ public class HlavneOknoGUI extends javax.swing.JFrame {
         this.jEditorPane1.setText("Auta z stk");
         Osoba osoba = new Osoba("961003/6095".toCharArray(), "Milos", "Foltan", "1996-10-30".toCharArray());
         
-        ResultSet executeQuery = this.jadro.getDbManipulation().executeQuery("select * from s_vozidlo");
+        ResultSet executeQuery = this.jadro.getDbManipulation().executeQuery("select * from s_vozidlo v order by value(v)");
         
         try {
             this.jTable2.setModel(TableModels.UniversalTableModel.buildTableModel(executeQuery));
